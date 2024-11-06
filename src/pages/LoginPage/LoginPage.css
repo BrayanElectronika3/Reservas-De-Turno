@@ -1,0 +1,27 @@
+/* Div principal del Login page */
+.content {
+    padding: 2rem 1rem;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 8px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ancho para tablet o escritorio */
+@media (min-width: 768px) {
+    .content {
+        width: 60%;
+    }
+}
+
+/* Title de Login Page */
+.title {
+    font-size: 1.8em;
+    font-weight: bold;
+    text-align: center;
+}
