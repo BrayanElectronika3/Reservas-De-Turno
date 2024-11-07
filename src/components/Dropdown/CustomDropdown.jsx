@@ -1,6 +1,5 @@
 'use client'
 
-import React from "react";
 import PropTypes from 'prop-types';
 import { Controller } from "react-hook-form";
 
@@ -22,7 +21,7 @@ const CustomInput = ({ name, control, label, type = "text", error, placeholder, 
                             className={`input-field ${error ? "is-invalid" : ""}`}
                         >
                             <option value="">{placeholder}</option>
-                            {dropdownOptions.map((option: any) => (
+                            {dropdownOptions.map((option) => (
                                 <option key={option.value} value={option.value}>
                                     {option.label}
                                 </option>
@@ -49,9 +48,9 @@ const CustomInput = ({ name, control, label, type = "text", error, placeholder, 
 };
 
 CustomInput.propTypes = {
-    name: PropTypes.any,
+    name: PropTypes.string.isRequired,
     control: PropTypes.object.isRequired,
-    label: PropTypes.string,
+    label: PropTypes.string.isRequired,
     type: PropTypes.string,
     error: PropTypes.object,
     placeholder: PropTypes.string,
@@ -64,4 +63,4 @@ CustomInput.propTypes = {
     ),
 };
 
-export default CustomInput;
+export default CustomInput

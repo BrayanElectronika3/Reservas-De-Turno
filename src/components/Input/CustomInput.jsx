@@ -30,9 +30,9 @@ const CustomInput = ({ name, control, label, type = "text", error, placeholder, 
 }
 
 CustomInput.propTypes = {
-    name: PropTypes.any,
+    name: PropTypes.string.isRequired,
     control: PropTypes.object.isRequired,
-    label: PropTypes.string,
+    label: PropTypes.string.isRequired,
     type: PropTypes.string,
     error: PropTypes.object,
     placeholder: PropTypes.string,
