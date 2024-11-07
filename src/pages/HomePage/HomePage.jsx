@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import InformativeMessage from '../../components/InformativeMessage/InformativeMessage'
 import CustomButton from '../../components/Button/CustomButton'
 
+import { documentTypeFetch } from '../../api/documentType';
+
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
@@ -13,8 +15,17 @@ const HomePage = () => {
     const navigate = useNavigate();
 
     const handleNewReservation  = async () => {
-        setModal(true);
-        setTimeout(() => { navigate("/login", { replace: true }); }, 5000);
+        setModal(true)
+        const response = await documentTypeFetch()
+
+        if (!response && !response?.data) {
+            console.log('Sin data');
+        }
+        
+        const result = response.data.map(item => ({ cod: item.codigo, value: item.nombre }));
+        localStorage.setItem('documentType', JSON.stringify(result))
+
+        setTimeout(() => { navigate("/login", { replace: true }); }, 5000)
     };
 
     return (
@@ -23,7 +34,7 @@ const HomePage = () => {
                 {/* Card */}
                 <div className={styles.card}>
                     {/* Title */}
-                    <h1 className={styles.title}>Reserva de turnos VITURNO</h1>
+                    <h1 className={styles.title}>RESERVAS DE TURNOS</h1>
                     {/* Informative Message */}
                     <InformativeMessage/>
                     {/* Buttons */}

@@ -1,47 +1,38 @@
 'use client'
 
-import PropTypes from 'prop-types';
 import { Controller } from "react-hook-form";
+import PropTypes from 'prop-types';
 
-import './CustomDropdown.css';
+import styles from './CustomDropdown.module.css';
 
-const CustomInput = ({ name, control, label, type = "text", error, placeholder, defaultValue, dropdownOptions }) => {
+const CustomInput = ({ name, control, label, type = "select", error, placeholder, defaultValue, dropdownOptions }) => {
     return (
-        <div className="form-group">
+        <div className={styles.formGroup}>
             <label htmlFor={name}>{label}</label>
             <Controller
                 name={name}
                 control={control}
                 defaultValue={defaultValue}
                 render={({ field }) =>
-                    type === "select" ? (
-                        <select
-                            id={name}
-                            {...field}
-                            className={`input-field ${error ? "is-invalid" : ""}`}
-                        >
-                            <option value="">{placeholder}</option>
-                            {dropdownOptions.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
-                    ) : (
-                        <input
-                            id={name}
-                            type={type}
-                            placeholder={placeholder}
-                            {...field}
-                            className={`input-field ${error ? "is-invalid" : ""}`}
-                        />
-                    )
+                    <select
+                        id={name}
+                        type={type}
+                        {...field}
+                        className={`${styles.inputField} ${error ? styles.isInvalid : ""}`}
+                    >
+                        <option value="" className={`${styles.option}`}>{placeholder}</option>
+                        {dropdownOptions.map((option) => (
+                            <option key={option.value} value={option.value} className={`${styles.option}`}>
+                                {option.label}
+                            </option>
+                        ))}
+                    </select>
                 }
             />
             {error ? (
-                <p className="error-message">{error.message}</p>
+                <p className={styles.errorMessage}>{error.message}</p>
             ) : (
-                <div className="placeholder-space"></div>
+                <div className={styles.placeholderSpace}></div>
             )}
         </div>
     );

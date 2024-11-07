@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import HomePage from './pages/HomePage/HomePage'
 import LoginPage from './pages/LoginPage/LoginPage'
+import ReservationPage from './pages/ReservationPage/ReservationPage'
 import PrivateGuard from './guards/PrivateGuard'
 
 const AppRouter = () => {
@@ -12,7 +13,7 @@ const AppRouter = () => {
                 <Route path='/login' element={<LoginPage/>}/>
 
                 <Route element={<PrivateGuard/>}>
-                    <Route path='/private' element={<h1>Private</h1>}/>
+                    <Route path='/reservation' element={<ReservationPage/>}/>
                 </Route>
 
                 <Route path='*' element={ <Navigate to={'/404'}/> }/>

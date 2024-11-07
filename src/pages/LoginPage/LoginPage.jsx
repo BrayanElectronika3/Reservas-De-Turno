@@ -1,17 +1,36 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import CustomDropdown from '../../components/Dropdown/CustomDropdown'
 import CustomInput from '../../components/Input/CustomInput'
 import CustomButton from '../../components/Button/CustomButton'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { squemaLogin } from '../../schemas/login.schema'
+
 import styles from './LoginPage.module.css'
 
 const LoginPage = () => {
-    const { control, handleSubmit, formState: { errors} } = useForm();
+    const { control, handleSubmit, formState: { errors} } = useForm({ resolver: zodResolver(squemaLogin) });
+    const [jsonData, setJsonData] = useState([])
+    const navigate = useNavigate()
 
-    const onSubmit = (data) => { console.log(data) }
+    useEffect(() => {
+        const documentType = localStorage.getItem('documentType')
+        setJsonData(JSON.parse(documentType))
+    }, []);
+
+    const onSubmit = (data) => { 
+        localStorage.setItem("authenticated", JSON.stringify(data))
+        goNext()
+        console.log(data)
+    }
+
+    const goBack = () => { navigate("/", { replace: true }) }
+    const goNext = () => { navigate("/reservation", { replace: true }) }
 
     return (
         <div className={styles.mainContainer}>
@@ -26,13 +45,7 @@ const LoginPage = () => {
                     type="select"
                     placeholder="Selecciona una opción"
                     error={errors.documentType}
-                    dropdownOptions={[
-                        { value: "cc", label: "Cédula de ciudadanía" },
-                        { value: "ce", label: "Cédula de extranjería" },
-                        { value: "pas", label: "Pasaporte (Digita sólo números)" },
-                        { value: "ti", label: "Tarjeta de identidad" },
-                        { value: "nit", label: "NIT" },
-                    ]}
+                    dropdownOptions={ jsonData.map(item => ({ value: item.cod, label: item.value })) }
                 />
                 {/* Custom input */}
                 <CustomInput 
@@ -44,13 +57,23 @@ const LoginPage = () => {
                     placeholder={'123654789'}
                     defaultValue={''}
                 />
-                {/* Button submit */}
-                <CustomButton
-                    name={'buttonSubmitLogin'}
-                    label={'Continuar'}
-                    type='submit'
-                    onClick={handleSubmit(onSubmit)}
-                />
+                {/* Container Buttons */}
+                <div className={styles.containerButtons}>    
+                    {/* Button submit */}
+                    <CustomButton
+                        name={'buttonSubmitLogin'}
+                        label={'Continuar'}
+                        type='submit'
+                        onClick={handleSubmit(onSubmit)}
+                    />
+                    {/* Button Go Back */}
+                    <CustomButton
+                        name={'buttonGoBackLogin'}
+                        label={'Regresar'}
+                        type='submit'
+                        onClick={goBack}
+                    />
+                </div>
             </div>
         </div>
     )

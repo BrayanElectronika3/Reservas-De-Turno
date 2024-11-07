@@ -1,11 +1,13 @@
+'use client'
+
 import { Controller } from "react-hook-form"
 import PropTypes from 'prop-types'
 
-import './CustomInput.css'
+import styles from './CustomInput.module.css'
 
 const CustomInput = ({ name, control, label, type = "text", error, placeholder, defaultValue}) => {
     return (
-        <div className="form-group">
+        <div className={styles.formGroup}>
             <label htmlFor={name}>{label}</label>
             <Controller 
                 name={name} 
@@ -17,13 +19,13 @@ const CustomInput = ({ name, control, label, type = "text", error, placeholder, 
                         type={type} 
                         placeholder={placeholder}
                         {...field} 
-                        className={`input-field ${error ? "is-invalid" : ""}`}
+                        className={`${styles.inputField} ${error ? styles.isInvalid : ""}`}
                     />
             }/>
             {error ? (
-                <p className="error-message">{error.message}</p>
+                <p className={styles.errorMessage}>{error.message}</p>
             ) : (
-                <div className="placeholder-space"></div>
+                <div className={styles.placeholderSpace}></div>
             )}
         </div>
     )
@@ -37,6 +39,6 @@ CustomInput.propTypes = {
     error: PropTypes.object,
     placeholder: PropTypes.string,
     defaultValue: PropTypes.oneOfType([ PropTypes.string, PropTypes.string ])
-};
+}
 
 export default CustomInput
