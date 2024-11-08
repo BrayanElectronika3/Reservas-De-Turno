@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,6 +16,7 @@ import styles from './ReservationPage.module.css'
 
 const ReservationPage = () => {
     const { control, handleSubmit, formState: { errors }, watch } = useForm({ resolver: zodResolver(schemaReservation), shouldFocusError: true, shouldUnregister: true})
+    const [jsonData, setJsonData] = useState({})
     const navigate = useNavigate()
 
     const serviceValue = watch('service')
@@ -22,6 +24,11 @@ const ReservationPage = () => {
     const subCategoryValue = watch('subCategory')
     const headquartersValue = watch('headquarters')
     const dateTime = watch('dateTime')
+
+    useEffect(() => {
+        const authenticated = localStorage.getItem('authenticated')
+        setJsonData(JSON.parse(authenticated))
+    }, []);
 
     const onSubmit = (data) => { console.log(data) }
 
@@ -33,6 +40,8 @@ const ReservationPage = () => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {/* Title */}
                     <h1 className={styles.title}>Tu reserva</h1>
+                    {/* Informacion */}
+                    <p>Hola, <strong>{`${jsonData.nombre}`}</strong>. <br></br> A continuación podrás programar la reserva de tu turno:</p>
                     {/* Custom Dropdown - Servicio */}
                     <CustomDropdown
                         name='service'

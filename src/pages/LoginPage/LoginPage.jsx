@@ -42,13 +42,24 @@ const LoginPage = () => {
         if (!response && !response?.data) {
             console.log('Error en solicitud API de usuarios')
             return
+        } else if (response.data === null) {
+            goRegister()
+            return
         }
 
-        localStorage.setItem("authenticated", JSON.stringify(response))
+        const { data: dataJson }  = response;
+        const authenticated = {
+            "nombre": `${dataJson.primerApellido} ${dataJson.segundoApellido} ${dataJson.primerNombre} ${dataJson.segundoNombre}`.trim(),
+            "identificacion": dataJson.identificacion,
+            "tipoIdentificacion": dataJson.tipoIdentificacion
+        }
+
+        localStorage.setItem("authenticated", JSON.stringify(authenticated))
         goNext()
     }
 
     const goBack = () => { navigate("/", { replace: true }) }
+    const goRegister = () => { navigate("/register", { replace: true }) }
     const goNext = () => { navigate("/reservation", { replace: true }) }
 
     return (
