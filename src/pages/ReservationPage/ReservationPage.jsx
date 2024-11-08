@@ -14,7 +14,7 @@ import { schemaReservation } from '../../schemas/reservation.schema'
 import styles from './ReservationPage.module.css'
 
 const ReservationPage = () => {
-    const { control, handleSubmit, formState: { errors }, watch } = useForm({ resolver: zodResolver(schemaReservation), shouldFocusError: true})
+    const { control, handleSubmit, formState: { errors }, watch } = useForm({ resolver: zodResolver(schemaReservation), shouldFocusError: true, shouldUnregister: true})
     const navigate = useNavigate()
 
     const serviceValue = watch('service')
@@ -32,7 +32,7 @@ const ReservationPage = () => {
             <div className={styles.content}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {/* Title */}
-                    <h1 className={styles.title}>¿Quién eres?</h1>
+                    <h1 className={styles.title}>Tu reserva</h1>
                     {/* Custom Dropdown - Servicio */}
                     <CustomDropdown
                         name='service'

@@ -43,7 +43,7 @@ const HomePage = () => {
                     {/* Buttons */}
                     <div className={styles.buttonContainer}>
                         {/* Active Turn */}
-                        <CustomButton name="activateTurn" label="Ver reserva o activar turno" type="button" />
+                        <CustomButton name="activateTurn" label="Ver reserva" type="button" />
                         {/* New Reservation */}
                         <CustomButton name="newReservation" label="Nueva Reserva" type="button" onClick={handleNewReservation} />
                     </div>
