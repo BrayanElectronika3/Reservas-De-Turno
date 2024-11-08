@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import InformativeMessage from '../../components/InformativeMessage/InformativeMessage'
 import CustomButton from '../../components/Button/CustomButton'
@@ -13,9 +13,13 @@ import styles from './HomePage.module.css';
 const HomePage = () => {
     const [modal, setModal] = useState(false);
     const navigate = useNavigate();
+    
+    const { IDTenant } = useParams();
+    localStorage.setItem("tenant", IDTenant)
 
     const handleNewReservation  = async () => {
         setModal(true)
+
 
         const response = await documentTypeFetch()
 

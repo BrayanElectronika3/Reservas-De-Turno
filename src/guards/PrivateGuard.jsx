@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 const PrivateGuard = () => {
-    const authenticated = localStorage.getItem('authenticated');
+    const user = localStorage.getItem('user');
 
-    return authenticated ? <Outlet/> : <Navigate to={'/'} replace={true}/>
+    return user ? <Outlet/> : <Navigate to={'/'} replace={true}/>
 }
 
 export default PrivateGuard

@@ -26,8 +26,8 @@ const ReservationPage = () => {
     const dateTime = watch('dateTime')
 
     useEffect(() => {
-        const authenticated = localStorage.getItem('authenticated')
-        setJsonData(JSON.parse(authenticated))
+        const user = localStorage.getItem('user')
+        setJsonData(JSON.parse(user))
     }, []);
 
     const onSubmit = (data) => { console.log(data) }

@@ -48,17 +48,20 @@ const LoginPage = () => {
         }
 
         const { data: dataJson }  = response;
-        const authenticated = {
+        const user = {
             "nombre": `${dataJson.primerApellido} ${dataJson.segundoApellido} ${dataJson.primerNombre} ${dataJson.segundoNombre}`.trim(),
             "identificacion": dataJson.identificacion,
             "tipoIdentificacion": dataJson.tipoIdentificacion
         }
 
-        localStorage.setItem("authenticated", JSON.stringify(authenticated))
+        localStorage.setItem("user", JSON.stringify(user))
         goNext()
     }
 
-    const goBack = () => { navigate("/", { replace: true }) }
+    const goBack = () => { 
+        const IDTenant = localStorage.getItem('tenant')
+        navigate(`/${IDTenant}`, { replace: true }) 
+    }
     const goRegister = () => { navigate("/register", { replace: true }) }
     const goNext = () => { navigate("/reservation", { replace: true }) }
 
