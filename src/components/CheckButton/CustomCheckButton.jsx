@@ -1,52 +1,75 @@
-import { useState } from 'react'
+import { Controller } from 'react-hook-form'
 import PropTypes from 'prop-types'
 
 import styles from './CustomCheckButton.module.css'
 
-const CustomCheckButton = ({ label, isChecked, onChange, disabled }) => {
-    const [checked, setChecked] = useState(isChecked);
-
-    const handleCheck = () => {
-        if (disabled) return;
-        const newCheckedState = !checked;        
-        setChecked(newCheckedState);
-        onChange && onChange(newCheckedState);
-    };
-
+const CustomCheckButton = ({ name, control, label, isChecked, error, disabled }) => {
     return (
-        <div className={`${styles.checkContainer}`}>
-            <div
-                className={`${styles.checkButtonContainer} ${disabled ? styles.disabled : '' }`}
-                onClick={!disabled ? handleCheck : undefined}
-                role="button"
-                aria-pressed={checked}
-                aria-disabled={disabled}
-                tabIndex={0}
-                onKeyPress={(e) => { if (!disabled && (e.key === ' ' || e.key === 'Enter')) { handleCheck() } }}
-            >
-                <input
-                    type="checkbox"
-                    className={styles.checkButtonInput}
-                    checked={checked}
-                    onChange={handleCheck}
-                    disabled={disabled}
-                    aria-checked={checked}
+        <div className={`${styles.formGroup}`}>
+            <div className={`${styles.checkContainer}`}>
+                <Controller
+                    name={name}
+                    control={control}
+                    render={({ field }) => {
+                        const { onChange, value } = field;
+                        const isChecked = value || false;
+
+                        const handleCheck = () => {
+                            if (disabled) return;
+                            const newCheckedState = !isChecked;
+                            onChange(newCheckedState);
+                        };
+
+                        return (
+                            <div
+                                className={`${styles.checkButtonContainer} ${disabled ? styles.disabled : ''}`}
+                                onClick={!disabled ? handleCheck : undefined}
+                                role="button"
+                                aria-pressed={isChecked}
+                                aria-disabled={disabled}
+                                tabIndex={0}
+                                onKeyPress={(e) => {
+                                    if (!disabled && (e.key === ' ' || e.key === 'Enter')) {
+                                        handleCheck();
+                                    }
+                                }}
+                            >
+                                <input
+                                    type="checkbox"
+                                    className={styles.checkButtonInput}
+                                    checked={isChecked}
+                                    onChange={handleCheck}
+                                    disabled={disabled}
+                                    aria-checked={isChecked}
+                                />
+                                <span
+                                    className={`${styles.checkBox} ${isChecked ? styles.checked : ''} ${disabled ? styles.disabled : ''}`}
+                                />
+                            </div>
+                        );
+                    }}
                 />
-                <span
-                    className={`${styles.checkBox} ${checked ? styles.checked : ''} ${disabled ? styles.disabled : ''} `}
-                />
+                <label
+                    className={`${styles.checkButtonLabel} ${isChecked ? styles.checked : ''} ${disabled ? styles.disabled : ''}`}
+                >
+                    {label}
+                </label>
             </div>
-            <label className={`${styles.checkButtonLabel} ${checked ? styles.checked : ''} ${disabled ? styles.disabled : ''}`}>
-                {label}
-            </label>
+            {error ? (
+                <p className={styles.errorMessage}>{error.message}</p>
+            ) : (
+                <div className={styles.placeholderSpace}></div>
+            )}
         </div>
     )
 }
 
 CustomCheckButton.propTypes = {
     label: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    control: PropTypes.object.isRequired,
     isChecked: PropTypes.bool,
-    onChange: PropTypes.func,
+    error: PropTypes.object,
     disabled: PropTypes.bool,
 }
 

@@ -11,6 +11,8 @@ import CustomButton from '../../components/Button/CustomButton'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaLogin } from '../../schemas/login.schema'
 
+import { userFetch } from '../../api/user';
+
 import styles from './LoginPage.module.css'
 
 const LoginPage = () => {
@@ -23,9 +25,26 @@ const LoginPage = () => {
         setJsonData(JSON.parse(documentType))
     }, []);
 
-    const onSubmit = (data) => { 
-        console.log(data)
-        localStorage.setItem("authenticated", JSON.stringify(data))
+    const onSubmit = async (data) => {            
+        const keyMapping = {
+            documentType: 'prefijo',
+            documentNumber: 'identificacion'
+        }
+
+        const mappingObject = Object.keys(data).reduce((acc, key) => {
+            const newKey = keyMapping[key] || key
+            acc[newKey] = data[key]
+            return acc
+        }, {})
+
+        const response = await userFetch(mappingObject)
+
+        if (!response && !response?.data) {
+            console.log('Error en solicitud API de usuarios')
+            return
+        }
+
+        localStorage.setItem("authenticated", JSON.stringify(response))
         goNext()
     }
 

@@ -1,4 +1,4 @@
-const BASE_URL = 'http://92.204.40.114:8443';
+import { BASE_URL } from './config'
 
 export const documentTypeFetch = async () => {
     const response = await fetch(`${BASE_URL}/reservas/api/identificaciones`)

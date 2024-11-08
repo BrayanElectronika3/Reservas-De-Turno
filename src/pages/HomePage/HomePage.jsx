@@ -16,13 +16,16 @@ const HomePage = () => {
 
     const handleNewReservation  = async () => {
         setModal(true)
+
         const response = await documentTypeFetch()
 
         if (!response && !response?.data) {
-            console.log('Sin data');
+            console.log('Error en solicitud API de identificaciones');
+            return;
         }
-        
-        const result = response.data.map(item => ({ cod: item.codigo, value: item.nombre }));
+
+        // Filtrar y transformar los datos
+        const result = response.data.filter(item => item.estado === "ACTIVO").map(item => ({ cod: item.codigo, value: item.nombre }))
         localStorage.setItem('documentType', JSON.stringify(result))
 
         setTimeout(() => { navigate("/login", { replace: true }); }, 5000)
@@ -50,7 +53,7 @@ const HomePage = () => {
                     <div className={styles.modal}>
                         <div className={styles.modalContent}>
                             <h2>La reserva no es una cita</h2>
-                            <p>Te recomendamos activar tu turno 5 minutos antes y durante los 20 minutos de la hora de tu reserva.</p>
+                            <p>Te recomendamos activar tu turno 5 minutos antes y durante los primeros 10 minutos de la hora de tu reserva.</p>
                         </div>
                     </div>
                 )}     
