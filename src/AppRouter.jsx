@@ -8,7 +8,7 @@ import PrivateGuard from './guards/PrivateGuard'
 
 const AppRouter = () => {
     return (
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
             <Routes>
                 <Route path='/:IDTenant' element={<HomePage/>}/>
                 <Route path='/login' element={<LoginPage/>}/>
@@ -18,8 +18,9 @@ const AppRouter = () => {
                     <Route path='/reservation' element={<ReservationPage/>}/>
                 </Route>
 
-                <Route path='*' element={ <Navigate to={'/404'}/> }/>
                 <Route path='/404' element={<h1>Page not found</h1>}/>
+                <Route path="*" element={<Navigate to={'/404'}/>} />
+
             </Routes>
         </BrowserRouter>
     )
