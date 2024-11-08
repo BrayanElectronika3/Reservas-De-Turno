@@ -9,12 +9,12 @@ import CustomInput from '../../components/Input/CustomInput'
 import CustomButton from '../../components/Button/CustomButton'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { squemaLogin } from '../../schemas/login.schema'
+import { schemaLogin } from '../../schemas/login.schema'
 
 import styles from './LoginPage.module.css'
 
 const LoginPage = () => {
-    const { control, handleSubmit, formState: { errors} } = useForm({ resolver: zodResolver(squemaLogin) });
+    const { control, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(schemaLogin), shouldFocusError: true});
     const [jsonData, setJsonData] = useState([])
     const navigate = useNavigate()
 
@@ -24,9 +24,9 @@ const LoginPage = () => {
     }, []);
 
     const onSubmit = (data) => { 
+        console.log(data)
         localStorage.setItem("authenticated", JSON.stringify(data))
         goNext()
-        console.log(data)
     }
 
     const goBack = () => { navigate("/", { replace: true }) }
@@ -35,45 +35,47 @@ const LoginPage = () => {
     return (
         <div className={styles.mainContainer}>
             <div className={styles.content}>
-                {/* Title */}
-                <h1 className={styles.title}>¿Quién eres?</h1>
-                {/* Custom Dropdown */}
-                <CustomDropdown
-                    name="documentType"
-                    control={control}
-                    label="Tipo de documento"
-                    type="select"
-                    placeholder="Selecciona una opción"
-                    error={errors.documentType}
-                    dropdownOptions={ jsonData.map(item => ({ value: item.cod, label: item.value })) }
-                />
-                {/* Custom input */}
-                <CustomInput 
-                    name={'documentNumber'}
-                    label={'Número de documento'}
-                    control={control}
-                    type='number'
-                    errors={errors}
-                    placeholder={'123654789'}
-                    defaultValue={''}
-                />
-                {/* Container Buttons */}
-                <div className={styles.containerButtons}>    
-                    {/* Button submit */}
-                    <CustomButton
-                        name={'buttonSubmitLogin'}
-                        label={'Continuar'}
-                        type='submit'
-                        onClick={handleSubmit(onSubmit)}
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    {/* Title */}
+                    <h1 className={styles.title}>¿Quién eres?</h1>
+                    {/* Custom Dropdown */}
+                    <CustomDropdown
+                        name='documentType'
+                        label='Tipo de documento'
+                        control={control}
+                        type='select'
+                        error={errors.documentType}
+                        placeholder='Selecciona una opción'
+                        dropdownOptions={ jsonData.map(item => ({ value: item.cod, label: item.value })) }
+                        defaultValue={''}
                     />
-                    {/* Button Go Back */}
-                    <CustomButton
-                        name={'buttonGoBackLogin'}
-                        label={'Regresar'}
-                        type='submit'
-                        onClick={goBack}
+                    {/* Custom input */}
+                    <CustomInput 
+                        name='documentNumber'
+                        label='Número de documento'
+                        control={control}
+                        type='number'
+                        error={errors.documentNumber}
+                        placeholder='123654789'
+                        defaultValue={''}
                     />
-                </div>
+                    {/* Container Buttons */} 
+                    <div className={styles.containerButtons}>    
+                        {/* Button submit */}
+                        <CustomButton
+                            name='submit'
+                            type='submit'
+                            label='Continuar'
+                        />
+                        {/* Button Go Back */}
+                        <CustomButton
+                            name='buttonGoBack'
+                            label='Regresar'
+                            type='button'
+                            onClick={goBack}
+                        />
+                    </div>
+                </form>
             </div>
         </div>
     )
