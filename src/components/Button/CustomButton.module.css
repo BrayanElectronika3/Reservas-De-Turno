@@ -1,33 +1,33 @@
-/* Button */
+/* Custom Button */
 .customButton {
     width: 100%;
     padding: 0.75em 1.5em;
     font-size: 1rem;
     font-weight: 500;
-    color: #ffffff;
-    background-color: #1a73e8;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color-button);
+    background-color: var(--primary-bg-button);
+    box-shadow: 0 2px 4px var(--primary-shadow-button);
 }
 
-/* Button Hover*/
+/* Custom Button Hover */
 .customButton:hover {
-    background-color: #1669c1;
     transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    background-color: var(--primary-bg-button-hover);
+    box-shadow: 0 4px 6px var(--second-shadow-button);
 }
 
-/* Button Active*/
+/* Custom Button Active */
 .customButton:active {
     transform: translateY(1px);
-    background-color: #1558a8;
+    background-color: var(--primary-bg-button-active);
 }
 
-/* Button Focus*/
+/* Custom Button Focus */
 .customButton:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.4);
+    box-shadow: 0 0 0 3px var(--third-shadow-button);
 }

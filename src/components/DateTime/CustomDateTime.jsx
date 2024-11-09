@@ -1,13 +1,11 @@
-'use client'
-
 import { Controller } from 'react-hook-form'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 import styles from './CustomDateTime.module.css'
 
-const CustomDateTime = ({ name, control, label, type = "datetime-local", error }) => {
+const CustomDateTime = ({ name, label, control, type = "datetime-local", error }) => {
     return (
-        <div className={styles.formGroup}>
+        <div className={styles.container}>
             <label htmlFor={name}>{label}</label>
             <Controller
                 name={name}
@@ -23,19 +21,15 @@ const CustomDateTime = ({ name, control, label, type = "datetime-local", error }
                     />
                 }
             />
-            {error ? (
-                <p className={styles.errorMessage}>{error.message}</p>
-            ) : (
-                <div className={styles.placeholderSpace}></div>
-            )}
+            {error ? <p className={styles.errorMessage}>{error.message}</p> : <div className={styles.placeholderSpace}></div>}
         </div>
     )
 }
 
 CustomDateTime.propTypes = {
     name: PropTypes.string.isRequired,
-    control: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
+    control: PropTypes.object.isRequired,
     type: PropTypes.string,
     error: PropTypes.object
 }

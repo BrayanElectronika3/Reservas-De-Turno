@@ -7,9 +7,7 @@ export const userFetch = async (data) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
-    });
-    
+    })
     if (!response.ok) return null
-
     return await response.json()
 }

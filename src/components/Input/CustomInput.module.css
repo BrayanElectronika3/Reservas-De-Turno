@@ -1,46 +1,46 @@
-/* Form Group */
-.formGroup {
+/* Main Container */
+.container {
     display: flex;
     flex-direction: column;
-    width: 100%;
     position: relative;
+    width: 100%;
 }
 
-.formGroup label {
-    margin-bottom: 0.5rem;
+.container label {
     font-weight: 600;
     font-size: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 /* Input Field */
 .inputField {
     padding: 0.75rem 1rem;
-    border: 1px solid #808080;
     border-radius: 0.5rem;
     font-size: 0.875rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     outline: none;
+    border: 1px solid var(--primary-border-input);
+    box-shadow: 0 2px 5px var(--primary-shadow-input);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .inputField:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    border-color: var(--primary-border-input-focus);
+    box-shadow: 0 0 0 2px var(--second-shadow-input-focus);
 }
 
 /* Is Invalid */
 .isInvalid {
-    border-color: #ef4444;
-    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+    border-color: var(--primary-invalid-input);
+    box-shadow: 0 0 0 2px var(--primary-invalid-shadow-input);
 }
 
 /* Error Message */
 .errorMessage {
-    color: #ef4444;
     margin-top: 0.1rem;
     font-size: 0.7rem;
     font-weight: 500;
     animation: fadeIn 0.3s ease-in-out;
+    color: var(--primary-error-input);
 }
 
 /* Placeholder */

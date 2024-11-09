@@ -1,9 +1,9 @@
-/* Form Group */
-.formGroup {
+/* Main Container  */
+.container {
     display: flex;
     flex-direction: column;
-    width: 100%;
     position: relative;
+    width: 100%;
 }
 
 /* Check Container */
@@ -14,10 +14,10 @@
 
 /* Check Button Container */
 .checkButtonContainer {
-    cursor: pointer;
-    user-select: none;
     display: flex;
     align-items: center;
+    user-select: none;
+    cursor: pointer;
 }
 
 .checkButtonContainer.disabled {
@@ -25,7 +25,7 @@
     opacity: 0.6;
 }
 
-/* Button Input */
+/* Check Button Input */
 .checkButtonInput {
     display: none;
 }
@@ -35,33 +35,27 @@
     width: 16px;
     height: 16px;
     border: 2px solid ;
-    background-color: var(--background-color-form, #f9f9f9);
     border-radius: 3px;
+    background-color: var(--background-color-form);
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .checkBox.checked {
-    background-color: #007bff;
     animation: pulse 0.3s ease-out;
+    background-color: var(--primary-check-box);
 }
 
 /* Animación de pulso */
 @keyframes pulse {
-    0% {
-        transform: scale(0.75);
-    }
-    70% {
-        transform: scale(1.25);
-    }
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(0.75); }
+    70% { transform: scale(1.25); }
+    100% { transform: scale(1); }
 }
 
 /* Check Box Disabled */
 .checkBox.disabled {
-    opacity: 0.6;
     cursor: not-allowed;
+    opacity: 0.6;
 }
 
 /* Check Box Label */
@@ -71,11 +65,11 @@
 
 /* Error Message */
 .errorMessage {
-    color: #ef4444;
     margin-top: 0.1rem;
     font-size: 0.7rem;
     font-weight: 500;
     animation: fadeIn 0.3s ease-in-out;
+    color: var(--primary-error-check-box);
 }
 
 /* Placeholder */

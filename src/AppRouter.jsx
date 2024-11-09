@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage/LoginPage'
 import RegisterPage from './pages/RegisterPage/RegisterPage'
 import ReservationPage from './pages/ReservationPage/ReservationPage'
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
+
 import PrivateGuard from './guards/PrivateGuard'
 
 const AppRouter = () => {

@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 import styles from './CustomButton.module.css'
 
@@ -15,6 +15,6 @@ CustomButton.propTypes = {
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     onClick: PropTypes.any
-};
+}
 
 export default CustomButton

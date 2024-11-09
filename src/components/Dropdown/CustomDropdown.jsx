@@ -1,13 +1,11 @@
-'use client'
+import { Controller } from "react-hook-form"
+import PropTypes from 'prop-types'
 
-import { Controller } from "react-hook-form";
-import PropTypes from 'prop-types';
+import styles from './CustomDropdown.module.css'
 
-import styles from './CustomDropdown.module.css';
-
-const CustomInput = ({ name, control, label, type = "select", error, placeholder, defaultValue, dropdownOptions }) => {
+const CustomInput = ({ name, label, control, type = "select", error, placeholder, defaultValue, dropdownOptions }) => {
     return (
-        <div className={styles.formGroup}>
+        <div className={styles.container}>
             <label htmlFor={name}>{label}</label>
             <Controller
                 name={name}
@@ -29,19 +27,15 @@ const CustomInput = ({ name, control, label, type = "select", error, placeholder
                     </select>
                 }
             />
-            {error ? (
-                <p className={styles.errorMessage}>{error.message}</p>
-            ) : (
-                <div className={styles.placeholderSpace}></div>
-            )}
+            {error ? <p className={styles.errorMessage}>{error.message}</p> : <div className={styles.placeholderSpace}></div>}
         </div>
-    );
-};
+    )
+}
 
 CustomInput.propTypes = {
     name: PropTypes.string.isRequired,
-    control: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
+    control: PropTypes.object.isRequired,
     type: PropTypes.string,
     error: PropTypes.object,
     placeholder: PropTypes.string,
@@ -52,6 +46,6 @@ CustomInput.propTypes = {
             label: PropTypes.string.isRequired,
         })
     ),
-};
+}
 
 export default CustomInput

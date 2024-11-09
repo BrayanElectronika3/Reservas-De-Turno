@@ -3,11 +3,15 @@ import './App.css'
 import AppRouter from './AppRouter'
 import HomePage from './pages/HomePage/HomePage'
 
+import { ThemeProvider } from './ThemeContext'
+
 function App() {
   return (
-    <AppRouter>
-      <HomePage/>
-    </AppRouter>
+    <ThemeProvider>
+      <AppRouter>
+        <HomePage/>
+      </AppRouter>
+    </ThemeProvider>
   )
 }
 
