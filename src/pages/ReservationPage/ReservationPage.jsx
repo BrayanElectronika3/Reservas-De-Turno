@@ -19,6 +19,11 @@ const ReservationPage = () => {
     const [jsonData, setJsonData] = useState({})
     const navigate = useNavigate()
 
+    const optionsService = [ { value: '1', label: 'Servicio 1' }, { value: '2', label: 'Servicio 2' } ]
+    const optionsCategory = [ { value: '1', label: 'Categoria 1' }, { value: '2', label: 'Categoria 2' }]
+    const optionsSubCategory = [ { value: '1', label: 'Sub categoria 1' }, { value: '2', label: 'Sub categoria 2' }]
+    const optionsHeadquarter = [ { value: '1', label: 'Sede 1' }, { value: '2', label: 'Sede 2' }]
+
     const serviceValue = watch('service')
     const categoryValue = watch('category')
     const subCategoryValue = watch('subCategory')
@@ -39,7 +44,7 @@ const ReservationPage = () => {
             <div className={styles.content}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <h1 className={styles.title}>Tu reserva</h1>
-                    <p>Hola, <strong>{`${jsonData.nombre}`}</strong>. <br></br> A continuación podrás programar la reserva de tu turno:</p>
+                    <p>Hola, <strong>{`${jsonData.nombre}`}</strong>. <br></br> A continuación podrás programar la reserva de tu turno.</p>
                     <CustomDropdown
                         name='service'
                         label='¿Qué servicio necesitas?'
@@ -47,10 +52,7 @@ const ReservationPage = () => {
                         type='select'
                         error={errors.service}
                         placeholder='Selecciona una opción'
-                        dropdownOptions={[
-                            { value: '1', label: 'Servicio 1' },
-                            { value: '2', label: 'Servicio 2' },
-                        ]}
+                        dropdownOptions={optionsService}
                         defaultValue={''}
                     />
                     {serviceValue && (
@@ -61,10 +63,7 @@ const ReservationPage = () => {
                             type='select'
                             error={errors.category}
                             placeholder='Selecciona una opción'
-                            dropdownOptions={[
-                                { value: '1', label: 'Categoria 1' },
-                                { value: '2', label: 'Categoria 2' },
-                            ]}
+                            dropdownOptions={optionsCategory}
                             defaultValue={''}
                         />
                     )}
@@ -76,10 +75,7 @@ const ReservationPage = () => {
                             type='select'
                             error={errors.subCategory}
                             placeholder='Selecciona una opción'
-                            dropdownOptions={[
-                                { value: '1', label: 'Sub categoria 1' },
-                                { value: '2', label: 'Sub categoria 2' },
-                            ]}
+                            dropdownOptions={optionsSubCategory}
                             defaultValue={''}
                         />
                     )}
@@ -91,10 +87,7 @@ const ReservationPage = () => {
                             type='select'
                             error={errors.headquarters}
                             placeholder='Selecciona una opción'
-                            dropdownOptions={[
-                                { value: '1', label: 'Sede 1' },
-                                { value: '2', label: 'Sede 2' },
-                            ]}
+                            dropdownOptions={optionsHeadquarter}
                             defaultValue={''}
                         />
                     )}

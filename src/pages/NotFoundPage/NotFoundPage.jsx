@@ -1,8 +1,12 @@
 'use client'
 
+import styles from './NotFoundPage.module.css'
+
 const NotFoundPage = () => {
     return (
-        <h1>Page not found</h1>
+        <div className={styles.notFoundContainer}>
+            <h1>404 - Página no encontrada</h1>
+        </div>
     )
 }
 
