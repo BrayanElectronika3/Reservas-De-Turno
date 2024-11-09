@@ -28,21 +28,18 @@ const ReservationPage = () => {
     useEffect(() => {
         const user = localStorage.getItem('user')
         setJsonData(JSON.parse(user))
-    }, []);
+    }, [])
 
     const onSubmit = (data) => { console.log(data) }
 
     const goBack = () => { navigate("/login", { replace: true }) }
 
     return (
-        <div className={styles.mainContainer}>
+        <div className={styles.container}>
             <div className={styles.content}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* Title */}
                     <h1 className={styles.title}>Tu reserva</h1>
-                    {/* Informacion */}
                     <p>Hola, <strong>{`${jsonData.nombre}`}</strong>. <br></br> A continuación podrás programar la reserva de tu turno:</p>
-                    {/* Custom Dropdown - Servicio */}
                     <CustomDropdown
                         name='service'
                         label='¿Qué servicio necesitas?'
@@ -56,7 +53,6 @@ const ReservationPage = () => {
                         ]}
                         defaultValue={''}
                     />
-                    {/*  Custom Dropdown - Categoria */}
                     {serviceValue && (
                         <CustomDropdown
                             name='category'
@@ -72,7 +68,6 @@ const ReservationPage = () => {
                             defaultValue={''}
                         />
                     )}
-                    {/* Custom Dropdown - Subcategoria */}
                     {categoryValue && (
                         <CustomDropdown
                             name='subCategory'
@@ -88,7 +83,6 @@ const ReservationPage = () => {
                             defaultValue={''}
                         />
                     )}
-                    {/* Custom Dropdown - Sede */}
                     {subCategoryValue && (
                         <CustomDropdown
                             name='headquarters'
@@ -104,7 +98,6 @@ const ReservationPage = () => {
                             defaultValue={''}
                         />
                     )}
-                    {/* Custom Date Time */}
                     {headquartersValue && (
                         <CustomDateTime
                             name='dateTime'
@@ -114,10 +107,8 @@ const ReservationPage = () => {
                             error={errors.dateTime}
                         />
                     )}
-                    {/* Container Check Button */}
                     {dateTime && (
                         <div className={styles.containerCheck}>
-                            {/* Check Button */}
                             <CustomCheckButton
                                 name="termsAndConditions"
                                 label='Acepta terminos y condiciones'
@@ -128,15 +119,12 @@ const ReservationPage = () => {
                             />
                         </div>
                     )}
-                    {/* Container Buttons */} 
                     <div className={styles.containerButtons}>
-                        {/* Button submit */}
                         <CustomButton
                             name='submit'
                             type='submit'
                             label='Continuar'
                         />
-                        {/* Button Go Back */}
                         <CustomButton
                             name='buttonGoBack'
                             label='Regresar'

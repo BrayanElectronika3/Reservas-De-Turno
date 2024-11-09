@@ -1,22 +1,22 @@
 :root {
-    --background-color: white;
-    --text-color: black;
-    --primary-color: blue;
-    --background-color-form: #313030;
-}
-
-[data-theme='dark'] {
-    --background-color: #1a1a1a;
-    --text-color: #ffffff;
-    --primary-color: lightblue;
-    --background-color-form: #313030;
+    --background-color: #f8f8f8;
+    --text-color: #000000;
+    --primary-color: #000000;
+    --background-color-form: #ffffff;
 }
 
 [data-theme='light'] {
-    --background-color: #ffffff;
+    --background-color: #f8f8f8;
     --text-color: #000000;
-    --primary-color: rgb(0, 0, 0);
+    --primary-color: #000000;
     --background-color-form: #ffffff;
+}
+
+[data-theme='dark'] {
+    --background-color: #242424;
+    --text-color: #ffffff;
+    --primary-color: lightblue;
+    --background-color-form: #313030;
 }
 
 [data-color='1'] {
@@ -56,4 +56,14 @@
     --primary-invalid-input: #ef4444;
     --primary-invalid-shadow-input: rgba(239, 68, 68, 0.2);
     --primary-error-input: #ef4444;
+    /* Home Page */
+    --primary-shadow-card: rgba(0, 0, 0, 0.1);
+    --primary-bg-card: rgba(0, 0, 0, 0.6); 
+    --primary-box-shadow-card: rgba(0, 0, 0, 0.2);
+    /* Login Page */
+    --primary-shadow-card-login: rgba(0, 0, 0, 0.1);
+    /* Register Page */
+    --primary-shadow-card-register: rgba(0, 0, 0, 0.1);
+    /* Reservation Page */
+    --primary-shadow-card-reservation: rgba(0, 0, 0, 0.1);
 }

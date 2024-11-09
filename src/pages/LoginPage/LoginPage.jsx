@@ -10,20 +10,19 @@ import CustomButton from '../../components/Button/CustomButton'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaLogin } from '../../schemas/login.schema'
-
-import { userFetch } from '../../api/user';
+import { userFetch } from '../../api/user'
 
 import styles from './LoginPage.module.css'
 
 const LoginPage = () => {
-    const { control, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(schemaLogin), shouldFocusError: true});
+    const { control, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(schemaLogin), shouldFocusError: true})
     const [jsonData, setJsonData] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
         const documentType = localStorage.getItem('documentType')
         setJsonData(JSON.parse(documentType))
-    }, []);
+    }, [])
 
     const onSubmit = async (data) => {            
         const keyMapping = {
@@ -38,16 +37,16 @@ const LoginPage = () => {
         }, {})
 
         const response = await userFetch(mappingObject)
-
         if (!response && !response?.data) {
             console.log('Error en solicitud API de usuarios')
             return
-        } else if (response.data === null) {
+        }
+        if (response.data === null) {
             goRegister()
             return
         }
 
-        const { data: dataJson }  = response;
+        const { data: dataJson }  = response
         const user = {
             "nombre": `${dataJson.primerApellido} ${dataJson.segundoApellido} ${dataJson.primerNombre} ${dataJson.segundoNombre}`.trim(),
             "identificacion": dataJson.identificacion,
@@ -66,12 +65,10 @@ const LoginPage = () => {
     const goNext = () => { navigate("/reservation", { replace: true }) }
 
     return (
-        <div className={styles.mainContainer}>
+        <div className={styles.container}>
             <div className={styles.content}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* Title */}
                     <h1 className={styles.title}>¿Quién eres?</h1>
-                    {/* Custom Dropdown */}
                     <CustomDropdown
                         name='documentType'
                         label='Tipo de documento'
@@ -82,7 +79,6 @@ const LoginPage = () => {
                         dropdownOptions={ jsonData.map(item => ({ value: item.cod, label: item.value })) }
                         defaultValue={''}
                     />
-                    {/* Custom input */}
                     <CustomInput 
                         name='documentNumber'
                         label='Número de documento'
@@ -92,15 +88,12 @@ const LoginPage = () => {
                         placeholder='123654789'
                         defaultValue={''}
                     />
-                    {/* Container Buttons */} 
                     <div className={styles.containerButtons}>    
-                        {/* Button submit */}
                         <CustomButton
                             name='submit'
                             type='submit'
                             label='Continuar'
                         />
-                        {/* Button Go Back */}
                         <CustomButton
                             name='buttonGoBack'
                             label='Regresar'

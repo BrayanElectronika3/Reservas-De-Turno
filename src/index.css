@@ -13,7 +13,6 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-  --background-color-form: #313030;
 }
 
 body {
@@ -25,6 +24,5 @@ body {
   :root {
     color: #213547;
     background-color: #f8f8f8;
-    --background-color-form: #ffffff;
   }
 }

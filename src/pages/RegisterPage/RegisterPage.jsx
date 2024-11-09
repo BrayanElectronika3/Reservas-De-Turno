@@ -12,11 +12,11 @@ import { schemaRegister } from '../../schemas/register.schema'
 import styles from './RegisterPage.module.css'
 
 const RegisterPage = () => {
-    const { control, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(schemaRegister), shouldFocusError: true});
+    const { control, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(schemaRegister), shouldFocusError: true})
     const navigate = useNavigate()
 
     const onSubmit = async (data) => {
-        console.log(data);
+        console.log(data)
         goNext()
     }
 
@@ -24,12 +24,10 @@ const RegisterPage = () => {
     const goNext = () => { navigate("/reservation", { replace: true }) }
 
     return (
-        <div className={styles.mainContainer}>
+        <div className={styles.container}>
             <div className={styles.content}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* Title */}
                     <h1 className={styles.title}>Registro</h1>
-                    {/* Custom input - Primer Nombre */}
                     <CustomInput 
                         name='firstName'
                         label='Primer nombre'
@@ -39,7 +37,6 @@ const RegisterPage = () => {
                         placeholder='Ingrese su primer nombre'
                         defaultValue={''}
                     />
-                    {/* Custom input - Segundo Nombre */}
                     <CustomInput 
                         name='secondName'
                         label='Segundo nombre'
@@ -49,7 +46,6 @@ const RegisterPage = () => {
                         placeholder='Ingrese su segundo nombre'
                         defaultValue={''}
                     />
-                    {/* Custom input - Primer Apellido */}
                     <CustomInput 
                         name='firstLastName'
                         label='Primer apellido'
@@ -59,7 +55,6 @@ const RegisterPage = () => {
                         placeholder='Ingrese su primer apellido'
                         defaultValue={''}
                     />
-                    {/* Custom input - Segundo Apellido */}
                     <CustomInput 
                         name='secondLastName'
                         label='Segundo apellido'
@@ -69,7 +64,6 @@ const RegisterPage = () => {
                         placeholder='Ingrese su segundo apellido'
                         defaultValue={''}
                     />
-                    {/* Custom input - Correo */}
                     <CustomInput 
                         name='email'
                         label='Correo'
@@ -79,7 +73,6 @@ const RegisterPage = () => {
                         placeholder='Ingrese su correo'
                         defaultValue={''}
                     />
-                    {/* Custom input - Celular */}
                     <CustomInput 
                         name='cellPhone'
                         label='Celular'
@@ -89,15 +82,12 @@ const RegisterPage = () => {
                         placeholder='Ingrese su celular'
                         defaultValue={''}
                     />
-                    {/* Container Buttons */} 
                     <div className={styles.containerButtons}>    
-                        {/* Button submit */}
                         <CustomButton
                             name='submit'
                             type='submit'
                             label='Continuar'
                         />
-                        {/* Button Go Back */}
                         <CustomButton
                             name='buttonGoBack'
                             label='Regresar'
