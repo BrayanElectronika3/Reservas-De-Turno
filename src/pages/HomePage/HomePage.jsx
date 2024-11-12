@@ -28,7 +28,7 @@ const HomePage = () => {
         }
 
         setTenantData(JSON.stringify(responseTenant.data))
-        
+
         navigate("/consultReservation", { replace: true })
     }
 
@@ -38,6 +38,11 @@ const HomePage = () => {
         const responseTenant = await tenantFetch(tenant)
         if (!responseTenant && !responseTenant?.data) {
             console.log('Error en la solicitud API de consulta de tenant')
+            return
+        }
+
+        if(responseTenant.data.estado !== "ACTIVO") {
+            console.log('Error en la solicitud API de consulta de tenant, el tenant no se encuentra activo')
             return
         }
 
