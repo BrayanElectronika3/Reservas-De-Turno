@@ -9,31 +9,46 @@ import viTurnoLogo from '../../assets/favicon.png'
 
 import { setTenantData, setDocumentType } from '../../util/localStorage'
 import { documentTypeFetch } from '../../api/documentType'
+import { tenantFetch } from '../../api/tenant'
 
 import styles from './HomePage.module.css'
 
 const HomePage = () => {
     const [modal, setModal] = useState(false)
     const navigate = useNavigate()
-    const { IDTenant } = useParams()
+    const { tenant } = useParams()
 
-    setTenantData(IDTenant)
+    setTenantData(tenant)
 
     const handleViewReservation = async () => {
+        const responseTenant = await tenantFetch(tenant)
+        if (!responseTenant && !responseTenant?.data) {
+            console.log('Error en la solicitud API de consulta de tenant')
+            return
+        }
+
+        setTenantData(JSON.stringify(responseTenant.data))
+        
         navigate("/consultReservation", { replace: true })
     }
 
     const handleNewReservation  = async () => {
         setModal(true)
 
-        const response = await documentTypeFetch()
-        console.log(response);
+        const responseTenant = await tenantFetch(tenant)
+        if (!responseTenant && !responseTenant?.data) {
+            console.log('Error en la solicitud API de consulta de tenant')
+            return
+        }
+
+        setTenantData(JSON.stringify(responseTenant.data))
         
+        const response = await documentTypeFetch()        
         if (!response && !response?.data) {
             console.log('Error en la solicitud API de identificaciones')
             return
         }
-
+        
         const result = response.data.filter(item => item.estado === "ACTIVO").map(item => ({ cod: item.codigo, value: item.nombre }))
         setDocumentType(result)
 

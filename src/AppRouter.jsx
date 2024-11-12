@@ -14,7 +14,7 @@ const AppRouter = () => {
     return (
         <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
             <Routes>
-                <Route path='/:IDTenant' element={<HomePage/>}/>
+                <Route path='/:tenant' element={<HomePage/>}/>
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/consultReservation' element={<ConsultReservationPage/>}/>
                 <Route path='/register' element={<RegisterPage/>}/>

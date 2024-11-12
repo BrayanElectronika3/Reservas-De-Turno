@@ -1,11 +1,11 @@
 // IDTenant
-export const setTenantData = (IDTenant) => {
+export const setTenantData = (nameTenant) => {
     try {
-        if (IDTenant === null || IDTenant === undefined || IDTenant === '') throw new Error ('Error al obtener los datos del IDTenant')
-        localStorage.setItem("tenant", IDTenant)
-        return IDTenant
+        if (nameTenant === null || nameTenant === undefined || nameTenant === '') throw new Error ('Error al obtener los datos del nameTenant')
+        localStorage.setItem("tenant", nameTenant)
+        return nameTenant
     } catch (error) {
-        console.error('Error al obtener los datos del IDTenant', error)
+        console.error('Error al obtener los datos del nameTenant', error)
         return null
     }
 }
@@ -14,6 +14,16 @@ export const getTenantData = () => {
     try {
         const data = localStorage.getItem('tenant')
         return data ? data : ''
+    } catch (error) {
+        console.error('Error al obtener los datos del ID Tenant:', error)
+        return ''
+    }
+}
+
+export const getIDTenant = () => {
+    try {
+        const data = localStorage.getItem('tenant')
+        return data ? JSON.parse(data).espacioTrabajo : ''
     } catch (error) {
         console.error('Error al obtener los datos del ID Tenant:', error)
         return ''

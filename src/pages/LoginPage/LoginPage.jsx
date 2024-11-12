@@ -11,7 +11,7 @@ import CustomButton from '../../components/Button/CustomButton'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaLogin } from '../../schemas/login.schema'
 import { userFetch } from '../../api/user'
-import { getTenantData, getDocumentType, setuser } from '../../util/localStorage'
+import { getIDTenant, getDocumentType, setuser } from '../../util/localStorage'
 import { mappingObject } from '../../util/mappingObject'
 
 import styles from './LoginPage.module.css'
@@ -27,9 +27,7 @@ const LoginPage = () => {
         setJsonData(documentType)
     }, [])
 
-    const onSubmit = async (data) => {  
-        console.log(data)
-                  
+    const onSubmit = async (data) => {                    
         const keyMapping = {
             documentType: 'prefijo',
             documentNumber: 'identificacion'
@@ -60,7 +58,7 @@ const LoginPage = () => {
     }
 
     const goBack = () => { 
-        const IDTenant = getTenantData()
+        const IDTenant = getIDTenant()
         navigate(`/${IDTenant}`, { replace: true }) 
     }
     const goRegister = () => { navigate("/register", { replace: true }) }

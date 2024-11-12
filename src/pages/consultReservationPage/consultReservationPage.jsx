@@ -10,7 +10,7 @@ import CustomButton from '../../components/Button/CustomButton'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaLogin } from '../../schemas/login.schema'
-import { getTenantData, getDocumentType } from '../../util/localStorage'
+import { getIDTenant, getDocumentType } from '../../util/localStorage'
 
 import styles from './consultReservationPage.module.css'
 
@@ -33,7 +33,7 @@ const ConsultReservationPage = () => {
     }
 
     const goBack = () => { 
-        const IDTenant = getTenantData()
+        const IDTenant = getIDTenant()
         navigate(`/${IDTenant}`, { replace: true }) 
     }
     // const goNext = () => { navigate("/summary", { replace: true }) }
