@@ -20,10 +20,10 @@ const ReservationPage = () => {
     const [jsonData, setJsonData] = useState({})
     const navigate = useNavigate()
 
-    const optionsService = [ { value: 'Servicio 1', label: 'Servicio 1' }, { value: '2', label: 'Servicio 2' } ]
-    const optionsCategory = [ { value: 'Categoria 1', label: 'Categoria 1' }, { value: '2', label: 'Categoria 2' }]
-    const optionsSubCategory = [ { value: 'Sub categoria 1', label: 'Sub categoria 1' }, { value: '2', label: 'Sub categoria 2' }]
-    const optionsHeadquarter = [ { value: 'Sede 1', label: 'Sede 1' }, { value: '2', label: 'Sede 2' }]
+    const optionsService = [ { value: 'Servicio 1', label: 'Servicio 1' }, { value: 'Servicio 2', label: 'Servicio 2' } ]
+    const optionsCategory = [ { value: 'Categoria 1', label: 'Categoria 1' }, { value: 'Categoria 2', label: 'Categoria 2' }]
+    const optionsSubCategory = [ { value: 'Sub categoria 1', label: 'Sub categoria 1' }, { value: 'Sub Categoria 2', label: 'Sub categoria 2' }]
+    const optionsHeadquarter = [ { value: 'Sede 1', label: 'Sede 1' }, { value: 'Sede 2', label: 'Sede 2' }]
 
     const serviceValue = watch('service')
     const categoryValue = watch('category')

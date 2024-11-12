@@ -2,6 +2,7 @@ import CustomButton from '../../components/Button/CustomButton'
 
 import { formatDate } from '../../util/date'
 import { getReservationData } from '../../util/localStorage'
+import viTurnoLogo from '../../assets/favicon.png'
 
 import styles from './SummaryPage.module.css'
 
@@ -23,15 +24,18 @@ const SummaryPage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <h1 className={styles.title}>Resumen de la reserva</h1>
+                <div className={styles.header}>
+                    <img src={viTurnoLogo} alt="Viturno logo" className={styles.logo} />
+                    <h1 className={styles.title}>Resumen de la reserva</h1>
+                </div>
                 <div className={styles.summary}>
                     {service ? (
                         <>
-                            <p><strong>Servicio:</strong> {service}</p>
-                            <p><strong>Categoria:</strong> {category}</p>
-                            <p><strong>Sub Categoria:</strong> {subCategory}</p>
-                            <p><strong>Sede:</strong> {headquarters}</p>
-                            <p><strong>Fecha y hora de la reserva:</strong> {formatDate(dateTime)}</p>
+                            <p><strong>• Servicio:</strong> {service}</p>
+                            <p><strong>• Categoria:</strong> {category}</p>
+                            <p><strong>• Sub Categoria:</strong> {subCategory}</p>
+                            <p><strong>• Sede:</strong> {headquarters}</p>
+                            <p><strong>• Fecha y hora de la reserva:</strong> {formatDate(dateTime)}</p>
                         </>
                     ) : (
                         <p>No hay datos de reserva disponibles.</p>

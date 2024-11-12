@@ -35,11 +35,28 @@
     }
 }
 
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 0.1rem;
+    flex-direction: column;
+}
+
+/* Logo */
+.logo {
+    width: 75px;
+}
+
 /* Title */
 .title {
     font-size: 2rem;
     font-weight: bold;
     text-align: center;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
 }
 
 /* Summary */
