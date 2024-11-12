@@ -16,7 +16,7 @@
     flex-direction: column;
     gap: 0.2rem;
     transition: max-width 0.3s ease;
-    padding: 2rem;
+    padding: 2rem 3rem;
     background-color: var(--background-color-form);
     box-shadow: 0 4px 8px var(--primary-shadow-card-register);
 }

@@ -61,9 +61,9 @@ const HomePage = () => {
     }
 
     return (
-        <div className={styles.mainContainer}>
+        <div className={styles.container}>
             <div className={styles.content}>
-                <div className={styles.card}>
+                <div>
                     <div className={styles.header}>
                         <img src={viTurnoLogo} alt="Viturno logo" className={styles.logo} />
                         <h1 className={styles.title}>Reserva de Turno</h1>
