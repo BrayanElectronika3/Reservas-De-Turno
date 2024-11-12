@@ -20,13 +20,15 @@ const HomePage = () => {
     setTenantData(IDTenant)
 
     const handleViewReservation = async () => {
-        console.log('Redireccionando a consulta de reservas')
+        navigate("/consultReservation", { replace: true })
     }
 
     const handleNewReservation  = async () => {
         setModal(true)
 
         const response = await documentTypeFetch()
+        console.log(response);
+        
         if (!response && !response?.data) {
             console.log('Error en la solicitud API de identificaciones')
             return
@@ -57,7 +59,10 @@ const HomePage = () => {
                 { modal && (
                     <div className={styles.modal}>
                         <div className={styles.modalContent}>
-                            <h2>La reserva no es una cita</h2>
+                            <div className={styles.header}>
+                                <img src={viTurnoLogo} alt="Viturno logo2" className={styles.logo2} />
+                                <h1 className={styles.title2}>La reserva no es una cita</h1>
+                            </div>
                             <p>Te recomendamos activar tu turno 5 minutos antes y durante los primeros 10 minutos de la hora de tu reserva.</p>
                         </div>
                     </div>

@@ -55,9 +55,21 @@
     text-align: center;
 }
 
+/* Title */
+.title2 {
+    font-size: 1.7rem;
+    font-weight: bold;
+    text-align: center;
+}
+
 /* Logo */
 .logo {
     width: 50px;
+}
+
+/* Logo */
+.logo2 {
+    width: 40px;
 }
 
 /* Button Container */
