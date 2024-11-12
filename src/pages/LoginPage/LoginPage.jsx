@@ -11,6 +11,8 @@ import CustomButton from '../../components/Button/CustomButton'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaLogin } from '../../schemas/login.schema'
 import { userFetch } from '../../api/user'
+import { getTenantData, getDocumentType, setuser } from '../../util/localStorage'
+import { mappingObject } from '../../util/mappingObject'
 
 import styles from './LoginPage.module.css'
 
@@ -20,45 +22,45 @@ const LoginPage = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const documentType = localStorage.getItem('documentType')
-        setJsonData(JSON.parse(documentType))
+        const documentType = getDocumentType()
+        if (!documentType) return null
+        setJsonData(documentType)
     }, [])
 
-    const onSubmit = async (data) => {            
+    const onSubmit = async (data) => {  
+        console.log(data)
+                  
         const keyMapping = {
             documentType: 'prefijo',
             documentNumber: 'identificacion'
         }
 
-        const mappingObject = Object.keys(data).reduce((acc, key) => {
-            const newKey = keyMapping[key] || key
-            acc[newKey] = data[key]
-            return acc
-        }, {})
+        const object = mappingObject(data, keyMapping)
+        const response = await userFetch(object)
 
-        const response = await userFetch(mappingObject)
         if (!response && !response?.data) {
             console.log('Error en solicitud API de usuarios')
-            return
+            return null
         }
+
         if (response.data === null) {
             goRegister()
-            return
+            return null
         }
 
-        const { data: dataJson }  = response
+        const { primerApellido, segundoApellido, primerNombre, segundoNombre, identificacion, tipoIdentificacion }  = response.data
         const user = {
-            "nombre": `${dataJson.primerApellido} ${dataJson.segundoApellido} ${dataJson.primerNombre} ${dataJson.segundoNombre}`.trim(),
-            "identificacion": dataJson.identificacion,
-            "tipoIdentificacion": dataJson.tipoIdentificacion
+            "nombre": `${primerApellido} ${segundoApellido} ${primerNombre} ${segundoNombre}`.trim(),
+            "identificacion": identificacion,
+            "tipoIdentificacion": tipoIdentificacion
         }
 
-        localStorage.setItem("user", JSON.stringify(user))
+        setuser(user)
         goNext()
     }
 
     const goBack = () => { 
-        const IDTenant = localStorage.getItem('tenant')
+        const IDTenant = getTenantData()
         navigate(`/${IDTenant}`, { replace: true }) 
     }
     const goRegister = () => { navigate("/register", { replace: true }) }
@@ -69,37 +71,11 @@ const LoginPage = () => {
             <div className={styles.content}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <h1 className={styles.title}>¿Quién eres?</h1>
-                    <CustomDropdown
-                        name='documentType'
-                        label='Tipo de documento'
-                        control={control}
-                        type='select'
-                        error={errors.documentType}
-                        placeholder='Selecciona una opción'
-                        dropdownOptions={ jsonData.map(item => ({ value: item.cod, label: item.value })) }
-                        defaultValue={''}
-                    />
-                    <CustomInput 
-                        name='documentNumber'
-                        label='Número de documento'
-                        control={control}
-                        type='number'
-                        error={errors.documentNumber}
-                        placeholder='123654789'
-                        defaultValue={''}
-                    />
-                    <div className={styles.containerButtons}>    
-                        <CustomButton
-                            name='submit'
-                            type='submit'
-                            label='Continuar'
-                        />
-                        <CustomButton
-                            name='buttonGoBack'
-                            label='Regresar'
-                            type='button'
-                            onClick={goBack}
-                        />
+                    <CustomDropdown name='documentType' label='Tipo de documento' control={control} type='select' error={errors.documentType} placeholder='Selecciona una opción' dropdownOptions={ jsonData.map(item => ({ value: item.cod, label: item.value })) } defaultValue={''} />
+                    <CustomInput name='documentNumber' label='Número de documento' control={control} type='number' error={errors.documentNumber} placeholder='123654789' defaultValue={''} />
+                    <div className={styles.containerButtons}>
+                        <CustomButton name='submit' label='Continuar' type='submit' />
+                        <CustomButton name='buttonGoBack' label='Regresar' type='button' onClick={goBack} />
                     </div>
                 </form>
             </div>

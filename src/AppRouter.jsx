@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage/HomePage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import RegisterPage from './pages/RegisterPage/RegisterPage'
 import ReservationPage from './pages/ReservationPage/ReservationPage'
+import SummaryPage from './pages/SummaryPage/SummaryPage'
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
 
 import PrivateGuard from './guards/PrivateGuard'
@@ -17,6 +18,7 @@ const AppRouter = () => {
                 <Route path='/register' element={<RegisterPage/>}/>
                 <Route element={<PrivateGuard/>}>
                     <Route path='/reservation' element={<ReservationPage/>}/>
+                    <Route path='/summary' element={<SummaryPage/>}/>
                 </Route>
                 <Route path='/404' element={<NotFoundPage/>}/>
                 <Route path="*" element={<Navigate to={'/404'}/>} />

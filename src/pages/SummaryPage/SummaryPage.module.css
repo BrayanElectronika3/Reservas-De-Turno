@@ -1,0 +1,53 @@
+/* Main Container */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Content */
+.content {
+    width: 90%;
+    max-width: 600px;
+    margin: 2rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    transition: max-width 0.3s ease;
+    padding: 2rem;
+    background-color: var(--background-color-form);
+    box-shadow: 0 4px 8px var(--primary-shadow-card-reservation);
+}
+
+@media (min-width: 768px) {
+    .content {
+        max-width: 90%;
+        max-width: 500px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .content {
+        width: 40%;
+        max-width: 700px;
+    }
+}
+
+/* Title */
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Summary */
+.summary {
+    margin-bottom: 1rem;
+}
+
+/* Text */
+p {
+    margin: 0.3rem 0.3rem;
+}
