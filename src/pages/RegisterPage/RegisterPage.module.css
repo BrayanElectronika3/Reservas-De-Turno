@@ -16,22 +16,37 @@
     flex-direction: column;
     gap: 0.2rem;
     transition: max-width 0.3s ease;
-    padding: 2rem 3rem;
+    padding: 1rem 2rem;
     background-color: var(--background-color-form);
     box-shadow: 0 4px 8px var(--primary-shadow-card-register);
 }
 
 @media (min-width: 768px) {
     .content {
-        max-width: 90%;
+        width: 70%;
         max-width: 500px;
+        padding: 2rem 3rem;
     }
 }
 
 @media (min-width: 1024px) {
     .content {
-        width: 40%;
+        width: 35%;
         max-width: 700px;
+        padding: 2rem 3rem;
+    }
+}
+
+/* Container Input */
+.containerInput {
+    display: flex;
+    gap: 2rem;    
+}
+
+@media (max-width: 768px) {
+    .containerInput {
+        flex-direction: column;
+        gap: 0rem;
     }
 }
 
@@ -45,6 +60,7 @@
 
 /* Container Buttons */
 .containerButtons {
+    margin-top: 0.75rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;

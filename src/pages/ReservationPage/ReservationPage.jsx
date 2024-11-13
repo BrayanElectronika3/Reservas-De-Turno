@@ -51,6 +51,7 @@ const ReservationPage = () => {
             <div className={styles.content}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <h1 className={styles.title}>Tu reserva</h1>
+                    <div></div>
                     <p>Hola, <strong>{`${jsonData.nombre}`}</strong>. <br></br> A continuación podrás programar la reserva de tu turno.</p>
                     <CustomDropdown name='service' label='¿Qué servicio necesitas?' control={control} type='select' error={errors.service} placeholder='Selecciona una opción' dropdownOptions={optionsService} faultValue={''} />
                     {serviceValue && (

@@ -29,13 +29,19 @@ const RegisterPage = () => {
             <div className={styles.content}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <h1 className={styles.title}>Registro</h1>
-                    <CustomInput name='firstName' label='Primer nombre' control={control} type='text' error={errors.firstName} placeholder='Ingrese su primer nombre' defaultValue={''} />
-                    <CustomInput name='secondName' label='Segundo nombre' control={control} type='text' error={errors.secondName} placeholder='Ingrese su segundo nombre' defaultValue={''} />
-                    <CustomInput name='firstLastName' label='Primer apellido' control={control} type='text' error={errors.firstLastName} placeholder='Ingrese su primer apellido' defaultValue={''} />
-                    <CustomInput name='secondLastName' label='Segundo apellido' control={control} type='text' error={errors.secondLastName} placeholder='Ingrese su segundo apellido' defaultValue={''} />
-                    <CustomInput name='email' label='Correo' control={control} type='text' error={errors.email} placeholder='Ingrese su correo' defaultValue={''} />
-                    <CustomInput name='cellPhone' label='Celular' control={control} type='number' error={errors.cellPhone} placeholder='Ingrese su celular' defaultValue={''} />
-                    <div className={styles.containerButtons}>    
+                    <div className={styles.containerInput}>
+                        <CustomInput name='firstName' label='Primer nombre' control={control} type='text' error={errors.firstName} placeholder='Ingrese su primer nombre' defaultValue={''} />
+                        <CustomInput name='secondName' label='Segundo nombre' control={control} type='text' error={errors.secondName} placeholder='Ingrese su segundo nombre' defaultValue={''} />
+                    </div>
+                    <div className={styles.containerInput}>
+                        <CustomInput name='firstLastName' label='Primer apellido' control={control} type='text' error={errors.firstLastName} placeholder='Ingrese su primer apellido' defaultValue={''} />
+                        <CustomInput name='secondLastName' label='Segundo apellido' control={control} type='text' error={errors.secondLastName} placeholder='Ingrese su segundo apellido' defaultValue={''} />
+                    </div>
+                    <div className={styles.containerInput}>
+                        <CustomInput name='email' label='Correo' control={control} type='text' error={errors.email} placeholder='Ingrese su correo' defaultValue={''} />
+                        <CustomInput name='cellPhone' label='Celular' control={control} type='number' error={errors.cellPhone} placeholder='Ingrese su celular' defaultValue={''} />
+                    </div>
+                    <div className={styles.containerButtons}>
                         <CustomButton name='submit' type='submit' label='Continuar' />
                         <CustomButton name='buttonGoBack' label='Regresar' type='button' onClick={goBack} />
                     </div>
