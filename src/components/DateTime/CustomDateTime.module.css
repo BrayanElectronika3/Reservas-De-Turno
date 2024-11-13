@@ -39,6 +39,7 @@
 .errorMessage {
   margin-top: 0.1rem;
   font-size: 0.7rem;
+  margin-bottom: 0.1rem;
   font-weight: 500;
   animation: fadeIn 0.3s ease-in-out;
   color: var(--primary-error-date-time);
@@ -46,7 +47,7 @@
 
 /* Placeholder */
 .placeholderSpace {
-  height: 1.85rem;
+  height: 1.25rem;
 }
 
 @keyframes fadeIn {

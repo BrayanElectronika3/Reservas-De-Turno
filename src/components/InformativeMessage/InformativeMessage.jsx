@@ -4,8 +4,8 @@ import styles from './InformativeMessage.module.css'
 
 const messages = [
     { key: 1, icon: "📆", text: "Reservar el turno para gestionar tu tiempo y tener prioridad en la fila para la atención." },
-    { key: 2, icon: "✍️", text: "Crear tu reserva." },
-    { key: 3, icon: "💎", text: "Ver el número del turno reservado." }
+    { key: 2, icon: "💎", text: "Ver el número del turno reservado." },
+    { key: 3, icon: "✍️", text: "Crear tu reserva." }
 ]
 
 const MessageItem = ({ icon, text }) => ( <p className={styles.item}>{icon} {text}</p> )

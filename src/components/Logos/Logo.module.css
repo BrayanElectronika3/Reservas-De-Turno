@@ -1,0 +1,18 @@
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 0rem;
+    width: 100%; /* Se asegura de que el contenedor use todo el ancho disponible */
+    overflow: hidden; /* Evita que el contenido desborde si es necesario */
+}
+
+/* Logo */
+.logo {
+    flex-grow: 1; /* Permite que las imágenes crezcan proporcionalmente */
+    max-width: 45%; /* Para evitar que la imagen exceda el contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    object-fit: contain; /* Ajusta cómo se muestra la imagen dentro del espacio */
+}

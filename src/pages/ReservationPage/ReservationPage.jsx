@@ -8,6 +8,8 @@ import CustomDropdown from '../../components/Dropdown/CustomDropdown'
 import CustomDateTime from '../../components/DateTime/CustomDateTime'
 import CustomCheckButton from '../../components/CheckButton/CustomCheckButton'
 import CustomButton from '../../components/Button/CustomButton'
+import Logo from '../../components/Logos/Logo'
+import LogoFooter from '../../components/Logos/LogoFooter'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaReservation } from '../../schemas/reservation.schema'
@@ -49,32 +51,38 @@ const ReservationPage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <h1 className={styles.title}>Tu reserva</h1>
-                    <div></div>
-                    <p>Hola, <strong>{`${jsonData.nombre}`}</strong>. <br></br> A continuación podrás programar la reserva de tu turno.</p>
-                    <CustomDropdown name='service' label='¿Qué servicio necesitas?' control={control} type='select' error={errors.service} placeholder='Selecciona una opción' dropdownOptions={optionsService} faultValue={''} />
-                    {serviceValue && (
-                        <CustomDropdown name='category' label='Cuál es la categoria del servicio?' control={control} type='select' error={errors.category} placeholder='Selecciona una opción' dropdownOptions={optionsCategory} defaultValue={''} />
-                    )}
-                    {categoryValue && (
-                        <CustomDropdown name='subCategory' label='¿Cuál es la subcategoria del servicio?' control={control} type='select' error={errors.subCategory} placeholder='Selecciona una opción' dropdownOptions={optionsSubCategory} defaultValue={''} /> )}
-                    {subCategoryValue && (
-                        <CustomDropdown name='headquarters' label='¿A cuál de las sedes vas a asistir?' control={control} type='select' error={errors.headquarters} placeholder='Selecciona una opción' dropdownOptions={optionsHeadquarter} defaultValue={''} />
-                    )}
-                    {headquartersValue && (
-                        <CustomDateTime name='dateTime' label='¿Cuál es la fecha y hora que deseas reservar?' control={control} type='datetime-local' error={errors.dateTime} />
-                    )}
-                    {dateTime && (
-                        <div className={styles.containerCheck}>
-                            <CustomCheckButton name="termsAndConditions" label='Acepta terminos y condiciones' control={control} disabled={false} isChecked={false} error={errors.termsAndConditions} />
+                <div className={styles.contentCard}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Logo/>
+                        <h1 className={styles.title}>Tu reserva</h1>
+                        <div></div>
+                        <p>Hola, <strong>{`${jsonData.nombre}`}</strong>. <br></br> A continuación podrás programar la reserva de tu turno.</p>
+                        <CustomDropdown name='service' label='¿Qué servicio necesitas?' control={control} type='select' error={errors.service} placeholder='Selecciona una opción' dropdownOptions={optionsService} faultValue={''} />
+                        {serviceValue && (
+                            <CustomDropdown name='category' label='Cuál es la categoria del servicio?' control={control} type='select' error={errors.category} placeholder='Selecciona una opción' dropdownOptions={optionsCategory} defaultValue={''} />
+                        )}
+                        {categoryValue && (
+                            <CustomDropdown name='subCategory' label='¿Cuál es la subcategoria del servicio?' control={control} type='select' error={errors.subCategory} placeholder='Selecciona una opción' dropdownOptions={optionsSubCategory} defaultValue={''} /> )}
+                        {subCategoryValue && (
+                            <CustomDropdown name='headquarters' label='¿A cuál de las sedes vas a asistir?' control={control} type='select' error={errors.headquarters} placeholder='Selecciona una opción' dropdownOptions={optionsHeadquarter} defaultValue={''} />
+                        )}
+                        {headquartersValue && (
+                            <CustomDateTime name='dateTime' label='¿Cuál es la fecha y hora que deseas reservar?' control={control} type='datetime-local' error={errors.dateTime} />
+                        )}
+                        {dateTime && (
+                            <div className={styles.containerCheck}>
+                                <CustomCheckButton name="termsAndConditions" label='Acepta terminos y condiciones' control={control} disabled={false} isChecked={false} error={errors.termsAndConditions} 
+                                    link={true} href='https://viturno.com/politica-privacidad/'
+                                />
+                            </div>
+                        )}
+                        <div className={styles.containerButtons}>
+                            <CustomButton name='submit' label='Continuar' type='submit' />
+                            <CustomButton name='buttonGoBack' label='Regresar' type='button' onClick={goBack} />
                         </div>
-                    )}
-                    <div className={styles.containerButtons}>
-                        <CustomButton name='submit' label='Continuar' type='submit' />
-                        <CustomButton name='buttonGoBack' label='Regresar' type='button' onClick={goBack} />
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <LogoFooter/>
             </div>
         </div>
     )

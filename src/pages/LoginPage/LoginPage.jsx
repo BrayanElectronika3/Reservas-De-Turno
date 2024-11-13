@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom'
 import CustomDropdown from '../../components/Dropdown/CustomDropdown'
 import CustomInput from '../../components/Input/CustomInput'
 import CustomButton from '../../components/Button/CustomButton'
+import Logo from '../../components/Logos/Logo'
+import LogoFooter from '../../components/Logos/LogoFooter'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaLogin } from '../../schemas/login.schema'
@@ -67,15 +69,19 @@ const LoginPage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <h1 className={styles.title}>¿Quién eres?</h1>
-                    <CustomDropdown name='documentType' label='Tipo de documento' control={control} type='select' error={errors.documentType} placeholder='Selecciona una opción' dropdownOptions={ jsonData.map(item => ({ value: item.cod, label: item.value })) } defaultValue={''} />
-                    <CustomInput name='documentNumber' label='Número de documento' control={control} type='number' error={errors.documentNumber} placeholder='123654789' defaultValue={''} />
-                    <div className={styles.containerButtons}>
-                        <CustomButton name='submit' label='Continuar' type='submit' />
-                        <CustomButton name='buttonGoBack' label='Regresar' type='button' onClick={goBack} />
-                    </div>
-                </form>
+                <div className={styles.contentCard}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Logo/>
+                        <h1 className={styles.title}>¿Quién eres?</h1>
+                        <CustomDropdown name='documentType' label='Tipo de documento' control={control} type='select' error={errors.documentType} placeholder='Selecciona una opción' dropdownOptions={ jsonData.map(item => ({ value: item.cod, label: item.value })) } defaultValue={''} />
+                        <CustomInput name='documentNumber' label='Número de documento' control={control} type='number' error={errors.documentNumber} placeholder='123654789' defaultValue={''} />
+                        <div className={styles.containerButtons}>
+                            <CustomButton name='submit' label='Continuar' type='submit' />
+                            <CustomButton name='buttonGoBack' label='Regresar' type='button' onClick={goBack} />
+                        </div>
+                    </form>
+                </div>
+                <LogoFooter/>
             </div>
         </div>
     )

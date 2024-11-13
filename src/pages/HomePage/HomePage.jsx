@@ -5,7 +5,10 @@ import { useNavigate, useParams } from "react-router-dom"
 
 import InformativeMessage from '../../components/InformativeMessage/InformativeMessage'
 import CustomButton from '../../components/Button/CustomButton'
-import viTurnoLogo from '../../assets/favicon.png'
+import Logo from '../../components/Logos/Logo'
+import LogoFooter from '../../components/Logos/LogoFooter'
+
+import viTurnoIcon from '../../assets/favicon.png'
 
 import { setTenantData, setDocumentType } from '../../util/localStorage'
 import { documentTypeFetch } from '../../api/documentType'
@@ -63,30 +66,31 @@ const HomePage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <div>
-                    <div className={styles.header}>
-                        <img src={viTurnoLogo} alt="Viturno logo" className={styles.logo} />
+                <div className={styles.contentCard}>
+                    <div>
+                        <Logo/>
                         <h1 className={styles.title}>Reserva de Turno</h1>
-                    </div>
-                    <div className={styles.informativeMessage}>
-                        <InformativeMessage/>
-                    </div>
-                    <div className={styles.buttonContainer}>
-                        <CustomButton name="activateTurn" label="Ver reserva" type="button" onClick={handleViewReservation}/>
-                        <CustomButton name="newReservation" label="Nueva Reserva" type="button" onClick={handleNewReservation} />
-                    </div>
-                </div>
-                { modal && (
-                    <div className={styles.modal}>
-                        <div className={styles.modalContent}>
-                            <div className={styles.header}>
-                                <img src={viTurnoLogo} alt="Viturno logo2" className={styles.logo2} />
-                                <h1 className={styles.title2}>La reserva no es una cita</h1>
-                            </div>
-                            <p>Te recomendamos activar tu turno 5 minutos antes y durante los primeros 10 minutos de la hora de tu reserva.</p>
+                        <div className={styles.informativeMessage}>
+                            <InformativeMessage/>
+                        </div>
+                        <div className={styles.buttonContainer}>
+                            <CustomButton name="activateTurn" label="Ver reserva" type="button" onClick={handleViewReservation}/>
+                            <CustomButton name="newReservation" label="Nueva Reserva" type="button" onClick={handleNewReservation} />
                         </div>
                     </div>
-                )}     
+                    { modal && (
+                        <div className={styles.modal}>
+                            <div className={styles.modalContent}>
+                                <div className={styles.header}>
+                                    <img src={viTurnoIcon} alt="Viturno logo2" className={styles.logo2} />
+                                    <h1 className={styles.title2}>La reserva no es una cita</h1>
+                                </div>
+                                <p>Te recomendamos activar tu turno 5 minutos antes y durante los primeros 10 minutos de la hora de tu reserva.</p>
+                            </div>
+                        </div>
+                    )}     
+                </div>
+                <LogoFooter/>
             </div>
         </div>
     )

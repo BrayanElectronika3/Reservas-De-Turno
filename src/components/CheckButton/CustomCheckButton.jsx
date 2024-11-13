@@ -1,9 +1,11 @@
 import { Controller } from 'react-hook-form'
 import PropTypes from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './CustomCheckButton.module.css'
 
-const CustomCheckButton = ({ name, label, control, isChecked = false, error, disabled = false }) => {
+const CustomCheckButton = ({ name, label, control, isChecked = false, error, disabled = false, link = false, href = '' }) => {
     return (
         <div className={`${styles.container}`}>
             <div className={`${styles.checkContainer}`}>
@@ -44,7 +46,9 @@ const CustomCheckButton = ({ name, label, control, isChecked = false, error, dis
                         )
                     }}
                 />
-                <label className={`${styles.checkButtonLabel} ${isChecked ? styles.checked : ''} ${disabled ? styles.disabled : ''}`}>{label}</label>
+                <label className={`${styles.checkButtonLabel} ${isChecked ? styles.checked : ''} ${disabled ? styles.disabled : ''}`}>
+                    {label} {link ? (<a href={href} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faExternalLinkAlt} /> </a>) : ('') }
+                </label>
             </div>
             {error ? <p className={styles.errorMessage}>{error.message}</p> : <div className={styles.placeholderSpace}></div>}
         </div>
@@ -57,7 +61,9 @@ CustomCheckButton.propTypes = {
     control: PropTypes.object.isRequired,
     isChecked: PropTypes.bool,
     error: PropTypes.object,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    link: PropTypes.bool,
+    href: PropTypes.string,
 }
 
 export default CustomCheckButton

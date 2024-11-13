@@ -8,6 +8,7 @@
 
 /* Content */
 .content {
+    padding: 0.1rem;
     width: 90%;
     max-width: 600px;
     margin: 2rem;
@@ -16,31 +17,50 @@
     flex-direction: column;
     gap: 0.2rem;
     transition: max-width 0.3s ease;
-    padding: 1rem 2rem;
     background-color: var(--background-color-form);
     box-shadow: 0 4px 8px var(--primary-shadow-card-register);
 }
 
 @media (min-width: 768px) {
     .content {
-        width: 70%;
-        max-width: 500px;
-        padding: 2rem 3rem;
+        width: 60%;
+        min-width: 550px;
+        max-width: 700px;
     }
 }
 
 @media (min-width: 1024px) {
     .content {
-        width: 35%;
+        width: 40%;
+        min-width: 550px;
         max-width: 700px;
+    }
+}
+
+/* Content Card */
+.contentCard {
+    padding: 1.5rem 1.5rem;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .contentCard {
         padding: 2rem 3rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .contentCard {
+        padding: 1rem 3rem;
     }
 }
 
 /* Container Input */
 .containerInput {
     display: flex;
-    gap: 2rem;    
+    gap: 2rem;
+    width: 100%; /* Se asegura de que el contenedor use todo el ancho disponible */
+    overflow: hidden; /* Evita que el contenido desborde si es necesario */
 }
 
 @media (max-width: 768px) {

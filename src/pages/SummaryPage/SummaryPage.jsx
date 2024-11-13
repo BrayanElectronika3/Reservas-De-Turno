@@ -1,8 +1,9 @@
 import CustomButton from '../../components/Button/CustomButton'
+import Logo from '../../components/Logos/Logo'
+import LogoFooter from '../../components/Logos/LogoFooter'
 
 import { formatDate } from '../../util/date'
 import { getReservationData } from '../../util/localStorage'
-import viTurnoLogo from '../../assets/favicon.png'
 
 import styles from './SummaryPage.module.css'
 
@@ -24,24 +25,25 @@ const SummaryPage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <div className={styles.header}>
-                    <img src={viTurnoLogo} alt="Viturno logo" className={styles.logo} />
+                <div className={styles.contentCard}>
+                    <Logo/>
                     <h1 className={styles.title}>Resumen de la reserva</h1>
+                    <div className={styles.summary}>
+                        {service ? (
+                            <>
+                                <p><strong>• Servicio:</strong> {service}</p>
+                                <p><strong>• Categoria:</strong> {category}</p>
+                                <p><strong>• Sub Categoria:</strong> {subCategory}</p>
+                                <p><strong>• Sede:</strong> {headquarters}</p>
+                                <p><strong>• Fecha y hora de la reserva:</strong> {formatDate(dateTime)}</p>
+                            </>
+                        ) : (
+                            <p>No hay datos de reserva disponibles.</p>
+                        )}
+                    </div>
+                    <CustomButton name="buttonFinish" label="Finalizar" type="button" onClick={handleFinish} />
                 </div>
-                <div className={styles.summary}>
-                    {service ? (
-                        <>
-                            <p><strong>• Servicio:</strong> {service}</p>
-                            <p><strong>• Categoria:</strong> {category}</p>
-                            <p><strong>• Sub Categoria:</strong> {subCategory}</p>
-                            <p><strong>• Sede:</strong> {headquarters}</p>
-                            <p><strong>• Fecha y hora de la reserva:</strong> {formatDate(dateTime)}</p>
-                        </>
-                    ) : (
-                        <p>No hay datos de reserva disponibles.</p>
-                    )}
-                </div>
-                <CustomButton name="buttonFinish" label="Finalizar" type="button" onClick={handleFinish} />
+                <LogoFooter/>
             </div>
         </div>
     )
