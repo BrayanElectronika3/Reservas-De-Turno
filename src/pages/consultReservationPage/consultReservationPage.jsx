@@ -12,7 +12,7 @@ import LogoFooter from '../../components/Logos/LogoFooter'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaLogin } from '../../schemas/login.schema'
-import { getIDTenant, getDocumentType } from '../../util/localStorage'
+import { getWorkSpaceTenant, getDocumentType } from '../../util/localStorage'
 
 import styles from './consultReservationPage.module.css'
 
@@ -35,7 +35,7 @@ const ConsultReservationPage = () => {
     }
 
     const goBack = () => { 
-        const IDTenant = getIDTenant()
+        const IDTenant = getWorkSpaceTenant()
         navigate(`/${IDTenant}`, { replace: true }) 
     }
     // const goNext = () => { navigate("/summary", { replace: true }) }

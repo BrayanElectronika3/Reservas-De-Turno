@@ -13,7 +13,7 @@ import LogoFooter from '../../components/Logos/LogoFooter'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaLogin } from '../../schemas/login.schema'
 import { userFetch } from '../../api/user'
-import { getIDTenant, getDocumentType, setuser } from '../../util/localStorage'
+import { getWorkSpaceTenant, getDocumentType, setuser } from '../../util/localStorage'
 import { mappingObject } from '../../util/mappingObject'
 
 import styles from './LoginPage.module.css'
@@ -60,7 +60,7 @@ const LoginPage = () => {
     }
 
     const goBack = () => { 
-        const IDTenant = getIDTenant()
+        const IDTenant = getWorkSpaceTenant()
         navigate(`/${IDTenant}`, { replace: true }) 
     }
     const goRegister = () => { navigate("/register", { replace: true }) }

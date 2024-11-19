@@ -21,8 +21,6 @@ const HomePage = () => {
     const navigate = useNavigate()
     const { tenant } = useParams()
 
-    setTenantData(tenant)
-
     const handleViewReservation = async () => {
         const responseTenant = await tenantFetch(tenant)
         if (!responseTenant && !responseTenant?.data) {

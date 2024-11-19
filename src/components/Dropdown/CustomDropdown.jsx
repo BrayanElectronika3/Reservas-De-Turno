@@ -19,11 +19,12 @@ const CustomInput = ({ name, label, control, type = "select", error, placeholder
                         className={`${styles.inputField} ${error ? styles.isInvalid : ""}`}
                     >
                         <option value="" className={`${styles.option}`}>{placeholder}</option>
-                        {dropdownOptions.map((option) => (
-                            <option key={option.value} value={option.value} className={`${styles.option}`}>
-                                {option.label}
-                            </option>
-                        ))}
+                        {Array.isArray(dropdownOptions) && dropdownOptions.length > 0 && dropdownOptions.map((option) => (
+                                <option key={option.value} value={option.value} className={`${styles.option}`}>
+                                    {option.label}
+                                </option>
+                            ))
+                        }
                     </select>
                 }
             />

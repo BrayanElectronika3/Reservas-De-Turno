@@ -20,10 +20,20 @@ export const getTenantData = () => {
     }
 }
 
-export const getIDTenant = () => {
+export const getWorkSpaceTenant = () => {
     try {
         const data = localStorage.getItem('tenant')
         return data ? JSON.parse(data).espacioTrabajo : ''
+    } catch (error) {
+        console.error('Error al obtener los datos del Espacio de trabajo del Tenant:', error)
+        return ''
+    }
+}
+
+export const getIDTenant = () => {
+    try {
+        const data = localStorage.getItem('tenant')
+        return data ? JSON.parse(data).idTenant : ''
     } catch (error) {
         console.error('Error al obtener los datos del ID Tenant:', error)
         return ''

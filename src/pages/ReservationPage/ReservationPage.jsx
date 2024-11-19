@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import CustomDropdown from '../../components/Dropdown/CustomDropdown'
@@ -14,37 +14,101 @@ import LogoFooter from '../../components/Logos/LogoFooter'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaReservation } from '../../schemas/reservation.schema'
 import { getUser, setReservationData } from '../../util/localStorage'
+import { getConfigurationService } from '../../api/configurationService'
 
 import styles from './ReservationPage.module.css'
 
+// Transformar el objeto en un arreglo para los dropdown
+const optionsDropdown = (data, value) => {
+    if (!data[value]) return []
+    return Object.keys(data[value]).map(key => ({
+        value: key,
+        label: key
+    }))
+}
+
 const ReservationPage = () => {
-    const { control, handleSubmit, formState: { errors }, watch } = useForm({ resolver: zodResolver(schemaReservation), shouldFocusError: true, shouldUnregister: true})
+    const { control, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(schemaReservation), shouldFocusError: true, shouldUnregister: true})
     const [jsonData, setJsonData] = useState({})
     const navigate = useNavigate()
+    
+    // const optionsService = [ { value: 'Value 1', label: 'Label 1' }, { value: 'Value 2', label: 'Label 2' } ]
+    const [ data, setData ] = useState({})
+    const [optionsService, setOptionsService] = useState([])
+    const [optionsCategory, setOptionsCategory] = useState([])
+    const [optionsSubCategory, setOptionsSubCategory] = useState([])
+    const [optionsHeadquarter, setOptionsHeadquarter] = useState([])
 
-    const optionsService = [ { value: 'Servicio 1', label: 'Servicio 1' }, { value: 'Servicio 2', label: 'Servicio 2' } ]
-    const optionsCategory = [ { value: 'Categoria 1', label: 'Categoria 1' }, { value: 'Categoria 2', label: 'Categoria 2' }]
-    const optionsSubCategory = [ { value: 'Sub categoria 1', label: 'Sub categoria 1' }, { value: 'Sub Categoria 2', label: 'Sub categoria 2' }]
-    const optionsHeadquarter = [ { value: 'Sede 1', label: 'Sede 1' }, { value: 'Sede 2', label: 'Sede 2' }]
+    // Instancia de observables para controlar los cambios sobre cada componente del formulario
+    const serviceValue = useWatch({ control, name: 'service' })
+    const categoryValue = useWatch({ control, name: 'category'})
+    const subCategoryValue = useWatch({ control, name: 'subCategory'})
+    const headquartersValue = useWatch({ control, name: 'headquarters'})
+    const dateTime = useWatch({ control, name: 'dateTime'})
 
-    const serviceValue = watch('service')
-    const categoryValue = watch('category')
-    const subCategoryValue = watch('subCategory')
-    const headquartersValue = watch('headquarters')
-    const dateTime = watch('dateTime')
+    // Use effects para el manejo de los cambio de valor sobre los componentes del formulario
+    useEffect(() => { 
+        if (serviceValue) { 
+            console.log("Servicio seleccionado:", serviceValue) 
+            setOptionsCategory(optionsDropdown(data.servicios[serviceValue], 'categorias'))
+        }
+    }, [serviceValue, data.servicios])
 
+    useEffect(() => { 
+        if (categoryValue) { 
+            console.log("Categoria seleccionada:", categoryValue) 
+        }
+    }, [categoryValue])
+
+    useEffect(() => { 
+        if (subCategoryValue) { 
+            console.log("Sub categoria seleccionada:", subCategoryValue) 
+        } 
+    }, [subCategoryValue])
+
+    useEffect(() => { 
+        if (headquartersValue) { 
+            console.log("Servicio seleccionado:", headquartersValue) 
+        } 
+    }, [headquartersValue])
+
+    useEffect(() => { 
+        if (dateTime) { 
+            console.log("Fecha seleccionada:", dateTime) 
+        } 
+    }, [dateTime])
+
+    // Obtencion del objeto principal al montar el componente
     useEffect(() => {
-        const user = getUser()
-        setJsonData(user)
+        console.log('Consultando Datos..')
+
+        const fetchData = async () => {
+            try { 
+                const [userData, configuration] = await Promise.all([
+                    getUser(),
+                    getConfigurationService()
+                ])
+    
+                setJsonData(userData)
+                setData(configuration.data)
+                setOptionsService(optionsDropdown(configuration.data, 'servicios'))
+
+            } catch (error) {
+                console.error('Error fetching data:', error)
+            }
+        }
+
+        fetchData()
     }, [])
 
+    // Solicitud POST de registro y si fue satisfactoria retorna a Summary
     const onSubmit = (data) => { 
-        // Solicitud POST de registro y si fue satisfactoria retorna a Summary
         console.log(data)
         setReservationData(data)
         goNext()
     }
 
+    // Renderizacion
     const goNext = () => { navigate("/summary", { replace: true }) }
     const goBack = () => { navigate("/login", { replace: true }) }
 
@@ -57,28 +121,85 @@ const ReservationPage = () => {
                         <h1 className={styles.title}>Tu reserva</h1>
                         <div></div>
                         <p>Hola, <strong>{`${jsonData.nombre}`}</strong>. <br></br> A continuación podrás programar la reserva de tu turno.</p>
-                        <CustomDropdown name='service' label='¿Qué servicio necesitas?' control={control} type='select' error={errors.service} placeholder='Selecciona una opción' dropdownOptions={optionsService} faultValue={''} />
+                        <CustomDropdown 
+                            name='service' 
+                            label='¿Qué servicio necesitas?' 
+                            control={control} 
+                            type='select' 
+                            error={errors.service} 
+                            placeholder='Selecciona una opción' 
+                            dropdownOptions={optionsService}
+                            defaultValue={''}
+                        />
                         {serviceValue && (
-                            <CustomDropdown name='category' label='Cuál es la categoria del servicio?' control={control} type='select' error={errors.category} placeholder='Selecciona una opción' dropdownOptions={optionsCategory} defaultValue={''} />
+                            <CustomDropdown 
+                                name='category' 
+                                label='Cuál es la categoria del servicio?' 
+                                control={control} 
+                                type='select' 
+                                error={errors.category} 
+                                placeholder='Selecciona una opción' 
+                                dropdownOptions={optionsCategory} 
+                                defaultValue={''} 
+                            />
                         )}
                         {categoryValue && (
-                            <CustomDropdown name='subCategory' label='¿Cuál es la subcategoria del servicio?' control={control} type='select' error={errors.subCategory} placeholder='Selecciona una opción' dropdownOptions={optionsSubCategory} defaultValue={''} /> )}
+                            <CustomDropdown 
+                                name='subCategory' 
+                                label='¿Cuál es la subcategoria del servicio?' 
+                                control={control} 
+                                type='select' 
+                                error={errors.subCategory} 
+                                placeholder='Selecciona una opción' 
+                                dropdownOptions={optionsSubCategory} 
+                                defaultValue={''} 
+                            /> )}
                         {subCategoryValue && (
-                            <CustomDropdown name='headquarters' label='¿A cuál de las sedes vas a asistir?' control={control} type='select' error={errors.headquarters} placeholder='Selecciona una opción' dropdownOptions={optionsHeadquarter} defaultValue={''} />
+                            <CustomDropdown 
+                                name='headquarters' 
+                                label='¿A cuál de las sedes vas a asistir?' 
+                                control={control} 
+                                type='select' 
+                                error={errors.headquarters} 
+                                placeholder='Selecciona una opción' 
+                                dropdownOptions={optionsHeadquarter} 
+                                defaultValue={''} 
+                            />
                         )}
                         {headquartersValue && (
-                            <CustomDateTime name='dateTime' label='¿Cuál es la fecha y hora que deseas reservar?' control={control} type='datetime-local' error={errors.dateTime} />
+                            <CustomDateTime 
+                                name='dateTime' 
+                                label='¿Cuál es la fecha y hora que deseas reservar?' 
+                                control={control} 
+                                type='datetime-local' 
+                                error={errors.dateTime} 
+                            />
                         )}
                         {dateTime && (
                             <div className={styles.containerCheck}>
-                                <CustomCheckButton name="termsAndConditions" label='Acepta terminos y condiciones' control={control} disabled={false} isChecked={false} error={errors.termsAndConditions} 
+                                <CustomCheckButton 
+                                    name="termsAndConditions" 
+                                    label='Acepta terminos y condiciones' 
+                                    control={control} 
+                                    disabled={false} 
+                                    isChecked={false} 
+                                    error={errors.termsAndConditions} 
                                     link={true} href='https://viturno.com/politica-privacidad/'
                                 />
                             </div>
                         )}
                         <div className={styles.containerButtons}>
-                            <CustomButton name='submit' label='Continuar' type='submit' />
-                            <CustomButton name='buttonGoBack' label='Regresar' type='button' onClick={goBack} />
+                            <CustomButton 
+                                name='submit' 
+                                label='Continuar' 
+                                type='submit' 
+                            />
+                            <CustomButton 
+                                name='buttonGoBack' 
+                                label='Regresar' 
+                                type='button' 
+                                onClick={goBack} 
+                            />
                         </div>
                     </form>
                 </div>
