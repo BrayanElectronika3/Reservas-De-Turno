@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { useForm, useWatch } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import CustomDropdown from '../../components/Dropdown/CustomDropdown'
 import CustomDateTime from '../../components/DateTime/CustomDateTime'
@@ -11,7 +12,6 @@ import CustomButton from '../../components/Button/CustomButton'
 import Logo from '../../components/Logos/Logo'
 import LogoFooter from '../../components/Logos/LogoFooter'
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { schemaReservation } from '../../schemas/reservation.schema'
 import { getUser, setReservationData } from '../../util/localStorage'
 import { getConfigurationService } from '../../api/configurationService'
@@ -20,6 +20,7 @@ import styles from './ReservationPage.module.css'
 
 // Transformar el objeto en un arreglo para los dropdown
 const optionsDropdown = (data, value) => {
+    // const optionsService = [ { value: 'Value 1', label: 'Label 1' }, { value: 'Value 2', label: 'Label 2' } ]
     if (!data[value]) return []
     return Object.keys(data[value]).map(key => ({
         value: key,
@@ -28,45 +29,48 @@ const optionsDropdown = (data, value) => {
 }
 
 const ReservationPage = () => {
-    const { control, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(schemaReservation), shouldFocusError: true, shouldUnregister: true})
-    const [jsonData, setJsonData] = useState({})
-    const navigate = useNavigate()
-    
-    // const optionsService = [ { value: 'Value 1', label: 'Label 1' }, { value: 'Value 2', label: 'Label 2' } ]
-    const [ data, setData ] = useState({})
+    const { control, handleSubmit, formState: { errors } } = useForm({ 
+        resolver: zodResolver(schemaReservation), 
+        shouldFocusError: true, 
+        shouldUnregister: true
+    })
+
+    const [jsonData, setJsonData]  = useState({})
+    const [data, setData] = useState({})
     const [optionsService, setOptionsService] = useState([])
     const [optionsCategory, setOptionsCategory] = useState([])
     const [optionsSubCategory, setOptionsSubCategory] = useState([])
     const [optionsHeadquarter, setOptionsHeadquarter] = useState([])
 
-    // Instancia de observables para controlar los cambios sobre cada componente del formulario
+    const navigate = useNavigate()
+
+    // Observables to watch form changes
     const serviceValue = useWatch({ control, name: 'service' })
     const categoryValue = useWatch({ control, name: 'category'})
     const subCategoryValue = useWatch({ control, name: 'subCategory'})
     const headquartersValue = useWatch({ control, name: 'headquarters'})
     const dateTime = useWatch({ control, name: 'dateTime'})
 
-    // Use effects para el manejo de los cambio de valor sobre los componentes del formulario
+    // Effect hooks for updating dropdown options based on selection changes
     useEffect(() => { 
         if (serviceValue) { 
-            console.log("Servicio seleccionado:", serviceValue) 
-            setOptionsCategory(optionsDropdown(data.servicios[serviceValue], 'categorias'))
+            setOptionsCategory(optionsDropdown(data.servicios?.[serviceValue], 'categorias') || [])
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [serviceValue])
 
     useEffect(() => { 
         if (categoryValue) { 
-            console.log("Categoria seleccionada:", categoryValue) 
-            setOptionsSubCategory(optionsDropdown(data.servicios[serviceValue].categorias[categoryValue], 'subCategorias'))
+            const categorias = data.servicios?.[serviceValue]?.categorias?.[categoryValue]
+            setOptionsSubCategory(optionsDropdown(categorias, 'subCategorias') || [])
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categoryValue])
 
     useEffect(() => { 
-        if (subCategoryValue) { 
-            console.log("Sub categoria seleccionada:", subCategoryValue) 
-            setOptionsHeadquarter(optionsDropdown(data.servicios[serviceValue].categorias[categoryValue].subCategorias[subCategoryValue], 'headquarters'))
+        if (subCategoryValue) {
+            const subCategorias = data.servicios?.[serviceValue]?.categorias?.[categoryValue]?.subCategorias?.[subCategoryValue]
+            setOptionsHeadquarter(optionsDropdown(subCategorias, 'headquarters') || [])
         } 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [subCategoryValue])
@@ -83,37 +87,31 @@ const ReservationPage = () => {
         } 
     }, [dateTime])
 
-    // Obtencion del objeto principal al montar el componente
+    // Fetch data on component mount
     useEffect(() => {
-        console.log('Consultando Datos..')
-
         const fetchData = async () => {
-            try { 
-                const [userData, configuration] = await Promise.all([
-                    getUser(),
-                    getConfigurationService()
-                ])
-    
+            try {
+                console.log('Consultando Datos...')
+                const [userData, configuration] = await Promise.all([getUser(), getConfigurationService()])
                 setJsonData(userData)
                 setData(configuration.data)
-                setOptionsService(optionsDropdown(configuration.data, 'servicios'))
+                setOptionsService(optionsDropdown(configuration.data, 'servicios') || [])
 
             } catch (error) {
                 console.error('Error fetching data:', error)
             }
         }
-
         fetchData()
     }, [])
 
-    // Solicitud POST de registro y si fue satisfactoria retorna a Summary
+    // Handle form submission
     const onSubmit = (data) => { 
         console.log(data)
         setReservationData(data)
         goNext()
     }
 
-    // Renderizacion
+    // Navigation functions
     const goNext = () => { navigate("/summary", { replace: true }) }
     const goBack = () => { navigate("/login", { replace: true }) }
 
