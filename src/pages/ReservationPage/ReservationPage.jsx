@@ -52,23 +52,28 @@ const ReservationPage = () => {
             console.log("Servicio seleccionado:", serviceValue) 
             setOptionsCategory(optionsDropdown(data.servicios[serviceValue], 'categorias'))
         }
-    }, [serviceValue, data.servicios])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [serviceValue])
 
     useEffect(() => { 
         if (categoryValue) { 
             console.log("Categoria seleccionada:", categoryValue) 
+            setOptionsSubCategory(optionsDropdown(data.servicios[serviceValue].categorias[categoryValue], 'subCategorias'))
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categoryValue])
 
     useEffect(() => { 
         if (subCategoryValue) { 
             console.log("Sub categoria seleccionada:", subCategoryValue) 
+            setOptionsHeadquarter(optionsDropdown(data.servicios[serviceValue].categorias[categoryValue].subCategorias[subCategoryValue], 'headquarters'))
         } 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [subCategoryValue])
 
     useEffect(() => { 
         if (headquartersValue) { 
-            console.log("Servicio seleccionado:", headquartersValue) 
+            console.log("Sede seleccionada:", headquartersValue) 
         } 
     }, [headquartersValue])
 
