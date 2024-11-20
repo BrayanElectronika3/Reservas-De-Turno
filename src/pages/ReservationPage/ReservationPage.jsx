@@ -70,8 +70,9 @@ const ReservationPage = () => {
 
     useEffect(() => { 
         if (subCategoryValue) {
-            const subCategorias = data.servicios?.[serviceValue]?.categorias?.[categoryValue]?.subCategorias?.[subCategoryValue]
-            setOptionsHeadquarter(optionsDropdown(subCategorias, 'headquarters') || [])
+            // const subCategorias = data.servicios?.[serviceValue]?.categorias?.[categoryValue]?.subCategorias?.[subCategoryValue]
+            // setOptionsHeadquarter(optionsDropdown(subCategorias, 'headquarters') || [])
+            setOptionsHeadquarter(optionsDropdown(data, 'sedes') || [])
         } 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [subCategoryValue])
