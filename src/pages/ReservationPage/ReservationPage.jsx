@@ -138,7 +138,7 @@ const ReservationPage = () => {
                         {serviceValue && (
                             <CustomDropdown 
                                 name='category' 
-                                label='Cuál es la categoria del servicio?' 
+                                label='¿Cuál es la categoría del servicio?' 
                                 control={control} 
                                 type='select' 
                                 error={errors.category} 
@@ -150,7 +150,7 @@ const ReservationPage = () => {
                         {categoryValue && (
                             <CustomDropdown 
                                 name='subCategory' 
-                                label='¿Cuál es la subcategoria del servicio?' 
+                                label='¿Cuál es la subcategoría del servicio?' 
                                 control={control} 
                                 type='select' 
                                 error={errors.subCategory} 

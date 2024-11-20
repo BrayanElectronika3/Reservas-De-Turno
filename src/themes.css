@@ -32,7 +32,7 @@
     --primary-check-box: #007bff;
     --primary-error-check-box: #ef4444;
     /* Date Time */
-    --primary-border-date-time: #808080;
+    --primary-border-date-time: #bbbbbb;
     --primary-shadow-date-time: rgba(0, 0, 0, 0.05);
     --primary-border-date-time-focus: #2563eb;
     --second-shadow-date-time-focus: rgba(37, 99, 235, 0.2);
@@ -40,7 +40,7 @@
     --primary-invalid-shadow-date-time: rgba(239, 68, 68, 0.2);
     --primary-error-date-time: #ef4444;
     /* Dropdown */
-    --primary-border-dropdown: #808080;
+    --primary-border-dropdown: #bbbbbb;
     --primary-shadow-dropdown: rgba(0, 0, 0, 0.05);
     --primary-border-dropdown-focus: #2563eb;
     --second-shadow-dropdown-focus: rgba(37, 99, 235, 0.2);
@@ -49,7 +49,7 @@
     --primary-error-dropdown: #ef4444;
     /* Informative Message */
     /* Input */
-    --primary-border-input: #808080;
+    --primary-border-input: #bbbbbb;
     --primary-shadow-input: rgba(0, 0, 0, 0.05);
     --primary-border-input-focus: #2563eb;
     --second-shadow-input-focus: rgba(37, 99, 235, 0.2);

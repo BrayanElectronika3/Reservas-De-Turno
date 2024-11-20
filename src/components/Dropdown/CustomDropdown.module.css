@@ -22,6 +22,12 @@
     border: 1px solid var(--primary-border-dropdown);
     box-shadow: 0 2px 5px var(--primary-shadow-dropdown);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    appearance: none;
+    -o-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: url('../../assets/flecha.png') no-repeat right 10px center;
+    background-size: 16px;
 }
 
 .inputField:focus {
