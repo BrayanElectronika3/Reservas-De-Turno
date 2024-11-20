@@ -54,7 +54,8 @@ const ReservationPage = () => {
     // Effect hooks for updating dropdown options based on selection changes
     useEffect(() => { 
         if (serviceValue) { 
-            setOptionsCategory(optionsDropdown(data.servicios?.[serviceValue], 'categorias') || [])
+            const servicios = data.servicios?.[serviceValue]
+            setOptionsCategory(optionsDropdown(servicios, 'categorias') || [])
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [serviceValue])
