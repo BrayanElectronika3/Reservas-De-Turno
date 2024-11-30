@@ -8,11 +8,12 @@
 
 /* Content */
 .content {
-    padding: 0.1rem;
+    padding: 0.4rem;
     width: 90%;
     max-width: 600px;
+    border-radius: 20px;
+    border: 0.1px solid var(--primary-border-card);
     margin: 2rem;
-    border-radius: 8px;
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
@@ -26,6 +27,7 @@
         width: 60%;
         min-width: 500px;
         max-width: 500px;
+        padding: 0.6rem;
     }
 }
 
@@ -34,6 +36,7 @@
         width: 30%;
         min-width: 500px;
         max-width: 500px;
+        padding: 0.8rem;
     }
 }
 

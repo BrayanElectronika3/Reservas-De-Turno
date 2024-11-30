@@ -16,14 +16,18 @@
 }
 
 body {
-  height: 100vh;
+  height: 100%;
   margin: 0;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background: rgb(255,255,255);
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgb(227, 230, 255) 70%, rgb(177, 185, 252) 100%);
+    /* background: rgb(255,255,255); */
+    /* background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgb(227, 230, 255) 70%, rgb(177, 185, 252) 100%); */
+    background-image: url('./assets/fondo.jpg'); /* Ruta de la imagen */
+    background-size: cover; /* Ajustar para que cubra el contenedor */
+    background-position: center; /* Centrar la imagen */
+    background-repeat: no-repeat; /* Evitar que se repita */
   }
 }

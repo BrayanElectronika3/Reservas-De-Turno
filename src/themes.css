@@ -22,28 +22,28 @@
 [data-color='1'] {
     /* Button */
     --primary-color-button: #ffffff;
-    --primary-bg-button: #1a69cf;
-    --primary-bg-button-hover: #1669c1;
-    --primary-bg-button-active: #1558a8;
+    --primary-bg-button: #381283;
+    --primary-bg-button-hover: #5C22D1;
+    --primary-bg-button-active:  #381283;
     --primary-shadow-button: rgba(0, 0, 0, 0.1);
     --second-shadow-button: rgba(0, 0, 0, 0.2);
-    --third-shadow-button: rgba(26, 115, 232, 0.4);
+    --third-shadow-button: #4719a5;
     /* Check Box */
-    --primary-check-box: #007bff;
+    --primary-check-box: #381283;
     --primary-error-check-box: #ef4444;
     /* Date Time */
     --primary-border-date-time: #bbbbbb;
     --primary-shadow-date-time: rgba(0, 0, 0, 0.05);
-    --primary-border-date-time-focus: #2563eb;
-    --second-shadow-date-time-focus: rgba(37, 99, 235, 0.2);
+    --primary-border-date-time-focus: #381283;
+    --second-shadow-date-time-focus: rgba(99, 49, 138, 0.2);
     --primary-invalid-date-time: #ef4444;
     --primary-invalid-shadow-date-time: rgba(239, 68, 68, 0.2);
     --primary-error-date-time: #ef4444;
     /* Dropdown */
     --primary-border-dropdown: #bbbbbb;
     --primary-shadow-dropdown: rgba(0, 0, 0, 0.05);
-    --primary-border-dropdown-focus: #2563eb;
-    --second-shadow-dropdown-focus: rgba(37, 99, 235, 0.2);
+    --primary-border-dropdown-focus: #381283;
+    --second-shadow-dropdown-focus: rgba(99, 49, 138, 0.2);
     --primary-invalid-dropdown: #ef4444;
     --primary-invalid-shadow-dropdown: rgba(239, 68, 68, 0.2);
     --primary-error-dropdown: #ef4444;
@@ -51,8 +51,8 @@
     /* Input */
     --primary-border-input: #bbbbbb;
     --primary-shadow-input: rgba(0, 0, 0, 0.05);
-    --primary-border-input-focus: #2563eb;
-    --second-shadow-input-focus: rgba(37, 99, 235, 0.2);
+    --primary-border-input-focus: #381283;
+    --second-shadow-input-focus: rgba(99, 49, 138, 0.2);
     --primary-invalid-input: #ef4444;
     --primary-invalid-shadow-input: rgba(239, 68, 68, 0.2);
     --primary-error-input: #ef4444;
@@ -60,6 +60,7 @@
     --primary-shadow-card: rgba(0, 0, 0, 0.1);
     --primary-bg-card: rgba(0, 0, 0, 0.6); 
     --primary-box-shadow-card: rgba(0, 0, 0, 0.2);
+    --primary-border-card: rgba(0, 0, 0, 0.1);
     /* Login Page */
     --primary-shadow-card-login: rgba(0, 0, 0, 0.1);
     /* Register Page */

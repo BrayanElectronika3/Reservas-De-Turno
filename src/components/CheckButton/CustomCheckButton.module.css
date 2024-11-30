@@ -42,7 +42,10 @@
 
 .checkBox.checked {
     animation: pulse 0.3s ease-out;
-    background-color: var(--primary-check-box);
+    background-color: var(--primary-check-box);    
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Animación de pulso */

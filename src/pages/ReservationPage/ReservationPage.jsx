@@ -1,121 +1,123 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import CustomDropdown from '../../components/Dropdown/CustomDropdown'
-import CustomDateTime from '../../components/DateTime/CustomDateTime'
 import CustomCheckButton from '../../components/CheckButton/CustomCheckButton'
 import CustomButton from '../../components/Button/CustomButton'
 import Logo from '../../components/Logos/Logo'
 import LogoFooter from '../../components/Logos/LogoFooter'
 
 import { schemaReservation } from '../../schemas/reservation.schema'
+import { getServicesHeadquarters, getServiceHours } from '../../api/configurationService'
 import { getUser, setReservationData } from '../../util/localStorage'
-import { getConfigurationService } from '../../api/configurationService'
+import { dropdownList, dropdownDate, dropdownObject } from '../../util/dropdown'
 
 import styles from './ReservationPage.module.css'
 
-// Transformar el objeto en un arreglo para los dropdown
-const optionsDropdown = (data, value) => {
-    // const optionsService = [ { value: 'Value 1', label: 'Label 1' }, { value: 'Value 2', label: 'Label 2' } ]
-    if (!data[value]) return []
-    return Object.keys(data[value]).map(key => ({
-        value: key,
-        label: key
-    }))
-}
-
+// Componente de reservacion
 const ReservationPage = () => {
-    const { control, handleSubmit, formState: { errors } } = useForm({ 
+    const { control, handleSubmit, formState: { errors }, setValue } = useForm({ 
         resolver: zodResolver(schemaReservation), 
         shouldFocusError: true, 
-        shouldUnregister: true
+        shouldUnregister: true,
     })
-
-    const [jsonData, setJsonData]  = useState({})
-    const [data, setData] = useState({})
-    const [optionsService, setOptionsService] = useState([])
-    const [optionsCategory, setOptionsCategory] = useState([])
-    const [optionsSubCategory, setOptionsSubCategory] = useState([])
-    const [optionsHeadquarter, setOptionsHeadquarter] = useState([])
 
     const navigate = useNavigate()
 
-    // Observables to watch form changes
+    // State
+    const [userData, setUserData] = useState({})
+    const [servicesData, setServicesData] = useState({})
+    const [datesData, setDatesData] = useState({})
+    const [optionsService, setOptionsService] = useState([])
+    const [optionsHeadquarter, setOptionsHeadquarter] = useState([])
+    const [optionsDates, setOptionsDates] = useState([])
+    const [availableTimes, setAvailableTimes] = useState([])
+
+    // Watch form values
     const serviceValue = useWatch({ control, name: 'service' })
-    const categoryValue = useWatch({ control, name: 'category'})
-    const subCategoryValue = useWatch({ control, name: 'subCategory'})
-    const headquartersValue = useWatch({ control, name: 'headquarters'})
-    const dateTime = useWatch({ control, name: 'dateTime'})
+    const headquartersValue = useWatch({ control, name: 'headquarters' })
+    const date = useWatch({ control, name: 'date' })
+    const time = useWatch({ control, name: 'time' })
 
-    // Effect hooks for updating dropdown options based on selection changes
-    useEffect(() => { 
-        if (serviceValue) { 
-            const servicios = data.servicios?.[serviceValue]
-            setOptionsCategory(optionsDropdown(servicios, 'categorias') || [])
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [serviceValue])
-
-    useEffect(() => { 
-        if (categoryValue) { 
-            const categorias = data.servicios?.[serviceValue]?.categorias?.[categoryValue]
-            setOptionsSubCategory(optionsDropdown(categorias, 'subCategorias') || [])
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [categoryValue])
-
-    useEffect(() => { 
-        if (subCategoryValue) {
-            // const subCategorias = data.servicios?.[serviceValue]?.categorias?.[categoryValue]?.subCategorias?.[subCategoryValue]
-            // setOptionsHeadquarter(optionsDropdown(subCategorias, 'headquarters') || [])
-            setOptionsHeadquarter(optionsDropdown(data, 'sedes') || [])
-        } 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [subCategoryValue])
-
-    useEffect(() => { 
-        if (headquartersValue) { 
-            console.log("Sede seleccionada:", headquartersValue) 
-        } 
-    }, [headquartersValue])
-
-    useEffect(() => { 
-        if (dateTime) { 
-            console.log("Fecha seleccionada:", dateTime) 
-        } 
-    }, [dateTime])
-
-    // Fetch data on component mount
+     // Fetch user and services data
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchInitialData = async () => {
             try {
-                console.log('Consultando Datos...')
-                const [userData, configuration] = await Promise.all([getUser(), getConfigurationService()])
-                setJsonData(userData)
-                setData(configuration.data)
-                setOptionsService(optionsDropdown(configuration.data, 'servicios') || [])
+                const [user, configuration] = await Promise.all([
+                    getUser(),
+                    getServicesHeadquarters(),
+                ])
+                setUserData(user)
+                setServicesData(configuration.data)
+                setOptionsService(dropdownObject(configuration.data, 'servicios') || [])
 
             } catch (error) {
-                console.error('Error fetching data:', error)
+                console.error('Error fetching initial data:', error)
             }
         }
-        fetchData()
+
+        fetchInitialData()
     }, [])
 
+    // Update headquarters options when service changes
+    useEffect(() => {
+        setValue('headquarters', '')
+        if (serviceValue) {
+            const newOptions = dropdownObject(servicesData?.servicios?.[serviceValue], 'sedes') || []
+            setOptionsHeadquarter(newOptions)
+        }
+    }, [serviceValue])
+
+    // Fetch service hours when headquarters changes
+    useEffect(() => {
+        if (!headquartersValue) return
+
+        const fetchServiceHours = async () => {
+            try {
+                const idConfigReservation = servicesData?.servicios?.[serviceValue]?.sedes?.[headquartersValue]?.idConfiguracionReservas
+
+                if (idConfigReservation) {
+                    const { data } = await getServiceHours(idConfigReservation)
+                    setDatesData(data)
+                    setOptionsDates(dropdownDate(data, 'fechas'))
+                } else {
+                    console.warn('No reservation configuration found for the selected headquarter.')
+                }
+            } catch (error) {
+                console.error('Error fetching service hours:', error)
+            }
+        }
+
+        fetchServiceHours()
+    }, [headquartersValue])
+
+    // Update available times when date changes
+    useEffect(() => {
+        if (date) {
+            setAvailableTimes(dropdownList(datesData?.fechas?.[date]) || [])
+        }
+    }, [date])
+
     // Handle form submission
-    const onSubmit = (data) => { 
-        console.log(data)
-        setReservationData(data)
-        goNext()
+    const onSubmit = (data) => {
+        try {
+            console.log(data)
+            setReservationData(data)
+            goNext()
+            
+        } catch (error) {
+            console.error('Error handling form submission:', error)
+        }
     }
 
     // Navigation functions
-    const goNext = () => { navigate("/summary", { replace: true }) }
-    const goBack = () => { navigate("/login", { replace: true }) }
+    const goNext = useCallback(() => { navigate("/summary", { replace: true }) }, [navigate])
+    const goBack = useCallback(() => { navigate('/login', { replace: true }) }, [navigate])
 
     return (
         <div className={styles.container}>
@@ -124,8 +126,10 @@ const ReservationPage = () => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Logo/>
                         <h1 className={styles.title}>Tu reserva</h1>
-                        <div></div>
-                        <p>Hola, <strong>{`${jsonData.nombre}`}</strong>. <br></br> A continuación podrás programar la reserva de tu turno.</p>
+                        <p>
+                            Hola, <strong>{`${userData.nombre}`}</strong>. <br/>
+                            A continuación podrás programar la reserva de tu turno.
+                        </p>
                         <CustomDropdown 
                             name='service' 
                             label='¿Qué servicio necesitas?' 
@@ -138,29 +142,6 @@ const ReservationPage = () => {
                         />
                         {serviceValue && (
                             <CustomDropdown 
-                                name='category' 
-                                label='¿Cuál es la categoría del servicio?' 
-                                control={control} 
-                                type='select' 
-                                error={errors.category} 
-                                placeholder='Selecciona una opción' 
-                                dropdownOptions={optionsCategory} 
-                                defaultValue={''} 
-                            />
-                        )}
-                        {categoryValue && (
-                            <CustomDropdown 
-                                name='subCategory' 
-                                label='¿Cuál es la subcategoría del servicio?' 
-                                control={control} 
-                                type='select' 
-                                error={errors.subCategory} 
-                                placeholder='Selecciona una opción' 
-                                dropdownOptions={optionsSubCategory} 
-                                defaultValue={''} 
-                            /> )}
-                        {subCategoryValue && (
-                            <CustomDropdown 
                                 name='headquarters' 
                                 label='¿A cuál de las sedes vas a asistir?' 
                                 control={control} 
@@ -172,15 +153,30 @@ const ReservationPage = () => {
                             />
                         )}
                         {headquartersValue && (
-                            <CustomDateTime 
-                                name='dateTime' 
-                                label='¿Cuál es la fecha y hora que deseas reservar?' 
+                            <CustomDropdown 
+                                name='date' 
+                                label='Selecciona la fecha de la reserva' 
                                 control={control} 
-                                type='datetime-local' 
-                                error={errors.dateTime} 
+                                type='select' 
+                                error={errors.date} 
+                                placeholder='Selecciona una opción' 
+                                dropdownOptions={optionsDates} 
+                                defaultValue={''} 
                             />
                         )}
-                        {dateTime && (
+                        { date && (
+                            <CustomDropdown 
+                                name='time' 
+                                label='Selecciona la hora de la reserva' 
+                                control={control} 
+                                type='select' 
+                                error={errors.time} 
+                                placeholder='Selecciona una opción' 
+                                dropdownOptions={availableTimes} 
+                                defaultValue={''} 
+                            />
+                        )}
+                        {time && (
                             <div className={styles.containerCheck}>
                                 <CustomCheckButton 
                                     name="termsAndConditions" 

@@ -40,10 +40,6 @@ const LoginPage = () => {
 
         if (!response && !response?.data) {
             console.log('Error en solicitud API de usuarios')
-            return null
-        }
-
-        if (response.data === null) {
             goRegister()
             return null
         }

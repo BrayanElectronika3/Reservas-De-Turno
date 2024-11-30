@@ -1,0 +1,85 @@
+/* Main Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+}
+
+.container label {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Input Field */
+.inputField {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    outline: none;
+    background-color: var(--background-color);
+    border: 1px solid var(--primary-border-dropdown);
+    box-shadow: 0 2px 5px var(--primary-shadow-dropdown);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    appearance: none;
+    -o-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: url('../../assets/flecha.png') no-repeat right 10px center;
+    background-size: 16px;
+}
+
+.inputField:focus {
+    border-color: var(--primary-border-dropdown-focus);
+    box-shadow: 0 0 0 2px var(--second-shadow-dropdown-focus);
+}
+
+/* Option */
+.option {
+    font-size: 0.7rem;
+}
+
+@media (min-width: 768px) {
+    .option {
+        font-size: 0.875rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .option {
+        font-size: 0.875rem;
+    }
+}
+
+/* Is Invalid */
+.isInvalid {
+    border-color: var(--primary-invalid-dropdown);
+    box-shadow: 0 0 0 2px var(--primary-invalid-shadow-dropdown);
+}
+
+/* Error Message */
+.errorMessage {
+    margin-top: 0.1rem;
+    font-size: 0.7rem;
+    margin-bottom: 0.1rem;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease-in-out;
+    color: var(--primary-error-dropdown);
+}
+
+/* Placeholder */
+.placeholderSpace {
+    height: 1.25rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

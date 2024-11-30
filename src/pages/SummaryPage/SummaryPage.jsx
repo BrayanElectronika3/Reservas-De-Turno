@@ -15,7 +15,7 @@ const SummaryPage = () => {
         return null
     }
 
-    const { service, category, subCategory, headquarters, dateTime } = reservation
+    const { service, headquarters, date, time } = reservation
 
     const handleFinish = () => {
         // Una vez se obtenga la solicitud de registro redireccionar o cerrar la pestaña
@@ -32,10 +32,9 @@ const SummaryPage = () => {
                         {service ? (
                             <>
                                 <p><strong>• Servicio:</strong> {service}</p>
-                                <p><strong>• Categoria:</strong> {category}</p>
-                                <p><strong>• Sub Categoria:</strong> {subCategory}</p>
                                 <p><strong>• Sede:</strong> {headquarters}</p>
-                                <p><strong>• Fecha y hora de la reserva:</strong> {formatDate(dateTime)}</p>
+                                <p><strong>• Fecha de la reserva:</strong> {formatDate(date)}</p>
+                                <p><strong>• Hora de la reserva:</strong> {time}</p>
                             </>
                         ) : (
                             <p>No hay datos de reserva disponibles.</p>

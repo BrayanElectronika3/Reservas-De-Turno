@@ -1,7 +1,8 @@
 import { Controller } from 'react-hook-form'
 import PropTypes from 'prop-types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { Check } from 'lucide-react'
 
 import styles from './CustomCheckButton.module.css'
 
@@ -41,7 +42,9 @@ const CustomCheckButton = ({ name, label, control, isChecked = false, error, dis
                                 />
                                 <span
                                     className={`${styles.checkBox} ${isChecked ? styles.checked : ''} ${disabled ? styles.disabled : ''}`}
-                                />
+                                >
+                                    { isChecked ? <Check size={15} color='white'/> : '' }
+                                </span>
                             </div>
                         )
                     }}
