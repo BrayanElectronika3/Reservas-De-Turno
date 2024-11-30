@@ -44,11 +44,12 @@ const LoginPage = () => {
             return null
         }
 
-        const { primerApellido, segundoApellido, primerNombre, segundoNombre, identificacion, tipoIdentificacion }  = response.data
+        const { primerApellido, segundoApellido, primerNombre, segundoNombre, identificacion, tipoIdentificacion, id }  = response.data
         const user = {
             "nombre": `${primerApellido} ${segundoApellido} ${primerNombre} ${segundoNombre}`.trim(),
             "identificacion": identificacion,
-            "tipoIdentificacion": tipoIdentificacion
+            "tipoIdentificacion": tipoIdentificacion,
+            "id": id
         }
 
         setuser(user)

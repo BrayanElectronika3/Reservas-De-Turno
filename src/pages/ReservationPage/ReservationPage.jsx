@@ -14,6 +14,7 @@ import LogoFooter from '../../components/Logos/LogoFooter'
 
 import { schemaReservation } from '../../schemas/reservation.schema'
 import { getServicesHeadquarters, getServiceHours } from '../../api/configurationService'
+import { reservationFetch } from '../../api/reservation'
 import { getUser, setReservationData } from '../../util/localStorage'
 import { dropdownList, dropdownDate, dropdownObject } from '../../util/dropdown'
 
@@ -104,11 +105,22 @@ const ReservationPage = () => {
     }, [date])
 
     // Handle form submission
-    const onSubmit = (data) => {
+    const onSubmit = async () => {
         try {
-            console.log(data)
+            const data = {
+                idPersona: userData.id,
+                idServicio: servicesData?.servicios?.[serviceValue]?.idServicio,
+                idSede: servicesData?.servicios?.[serviceValue]?.sedes?.[headquartersValue]?.idSede,
+                fechaReserva: date,
+                horaReserva: time,
+                duracionReserva: datesData.duracionReserva,
+            }
+            
             setReservationData(data)
-            goNext()
+            const response = await reservationFetch({ data })
+            console.log(response)
+            
+            // goNext()
             
         } catch (error) {
             console.error('Error handling form submission:', error)
@@ -116,7 +128,7 @@ const ReservationPage = () => {
     }
 
     // Navigation functions
-    const goNext = useCallback(() => { navigate("/summary", { replace: true }) }, [navigate])
+    // const goNext = useCallback(() => { navigate("/summary", { replace: true }) }, [navigate])
     const goBack = useCallback(() => { navigate('/login', { replace: true }) }, [navigate])
 
     return (
