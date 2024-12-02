@@ -1,6 +1,6 @@
 import { BASE_URL } from './config'
 
-export const userFetch = async (data) => {
+export const postUser = async (data) => {
     const response = await fetch(`${BASE_URL}/reservas/api/personas/consultar`, {
         method: 'POST',
         headers: {

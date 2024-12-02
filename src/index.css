@@ -22,7 +22,7 @@ body {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #2d3236;
     /* background: rgb(255,255,255); */
     /* background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgb(227, 230, 255) 70%, rgb(177, 185, 252) 100%); */
     background-image: url('./assets/fondo.jpg'); /* Ruta de la imagen */

@@ -6,129 +6,200 @@ import { useNavigate } from 'react-router-dom'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import errorIcon from '../../assets/error-modal.png'
+import delayIcon from '../../assets/delay-modal.png'
+
+import Logo from '../../components/Logos/Logo'
 import CustomDropdown from '../../components/Dropdown/CustomDropdown'
 import CustomCheckButton from '../../components/CheckButton/CustomCheckButton'
 import CustomButton from '../../components/Button/CustomButton'
-import Logo from '../../components/Logos/Logo'
 import LogoFooter from '../../components/Logos/LogoFooter'
+import CustomModal from '../../components/Modal/CustomModal'
 
 import { schemaReservation } from '../../schemas/reservation.schema'
-import { getServicesHeadquarters, getServiceHours } from '../../api/configurationService'
-import { reservationFetch } from '../../api/reservation'
-import { getUser, setReservationData } from '../../util/localStorage'
 import { dropdownList, dropdownDate, dropdownObject } from '../../util/dropdown'
+import { getUser, setReservationData } from '../../util/localStorage'
+import { getServicesHeadquarters, getDaysHoursService } from '../../api/configurationService'
+import { postReservation } from '../../api/reservation'
 
 import styles from './ReservationPage.module.css'
 
-// Componente de reservacion
 const ReservationPage = () => {
     const { control, handleSubmit, formState: { errors }, setValue } = useForm({ 
         resolver: zodResolver(schemaReservation), 
         shouldFocusError: true, 
         shouldUnregister: true,
     })
-
     const navigate = useNavigate()
 
-    // State
-    const [userData, setUserData] = useState({})
-    const [servicesData, setServicesData] = useState({})
-    const [datesData, setDatesData] = useState({})
-    const [optionsService, setOptionsService] = useState([])
-    const [optionsHeadquarter, setOptionsHeadquarter] = useState([])
-    const [optionsDates, setOptionsDates] = useState([])
-    const [availableTimes, setAvailableTimes] = useState([])
+    // Consolidated State
+    const [state, setState] = useState({
+        userData: {},
+        servicesData: {},
+        datesData: {},
+        options: {
+            service: [],
+            headquarters: [],
+            dates: [],
+            times: [],
+        },
+        modal: false,
+        error: {
+            active: false,
+            title: 'Lo sentimos, algo salió mal',
+            message: 'Intente realizar la acción nuevamente en unos minutos.',
+            button: false,
+        },
+    })
 
-    // Watch form values
+    const { userData, servicesData, datesData, options, modal, error } = state
+
+    // Watch Form Values
     const serviceValue = useWatch({ control, name: 'service' })
     const headquartersValue = useWatch({ control, name: 'headquarters' })
-    const date = useWatch({ control, name: 'date' })
-    const time = useWatch({ control, name: 'time' })
+    const dateValue = useWatch({ control, name: 'date' })
+    const timeValue = useWatch({ control, name: 'time' })
 
-     // Fetch user and services data
-    useEffect(() => {
-        const fetchInitialData = async () => {
-            try {
-                const [user, configuration] = await Promise.all([
-                    getUser(),
-                    getServicesHeadquarters(),
-                ])
-                setUserData(user)
-                setServicesData(configuration.data)
-                setOptionsService(dropdownObject(configuration.data, 'servicios') || [])
-
-            } catch (error) {
-                console.error('Error fetching initial data:', error)
-            }
+    // Helper Functions
+    const fetchInitialData = async () => {
+        try {
+            const [user, configuration] = await Promise.all([
+                getUser(),
+                getServicesHeadquarters(),
+            ])            
+            setState(prev => ({
+                ...prev,
+                userData: user,
+                servicesData: configuration.data,
+                options: {
+                    ...prev.options,
+                    service: dropdownObject(configuration.data, 'servicios') || [],
+                },
+            }))
+            
+        } catch (error) {
+            console.error('Error getting initial user and service data', error)
+            showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
         }
+    }
 
-        fetchInitialData()
+    // Obtener horarios disponibles
+    const fetchServiceHours = async () => {
+        try {
+            const idConfig = servicesData?.servicios?.[serviceValue]?.sedes?.[headquartersValue]?.idConfiguracionReservas
+            if (!idConfig) {
+                console.log('Error no reservation configuration found for the selected headquarter.')
+                showError('Lo sentimos', `No hemos encontrado horarios disponibles para el servicio "${serviceValue}" y la sede "${headquartersValue}".`, true)
+                return
+            }
+
+            setState(prev => ({ ...prev, modal: true }))
+            const { data } = await getDaysHoursService(idConfig)
+
+            setTimeout(() => {
+                if (!Object.keys(data?.fechas || {}).length) {
+                    setValue('headquarters', '')
+                    console.log('Error no dates found for the selected headquarter.')
+                    showError('Lo sentimos', `No hemos encontrado horarios disponibles para el servicio "${serviceValue}" y la sede "${headquartersValue}".`, true)
+                    return
+                }
+                setState(prev => ({
+                    ...prev,
+                    modal: false,
+                    datesData: data,
+                    options: { ...prev.options, dates: dropdownDate(data, 'fechas') },
+                }))
+            }, 2000)
+
+        } catch (error) {
+            console.error('Error getting days and hours of service data', error)
+            showError('Lo sentimos, algo salió mal', `Intente realizar la acción nuevamente en unos minutos. Si el problema persiste, por favor, contacte a nuestro equipo de soporte.`, true)
+        }
+    }
+
+    // Mostrar Error en pantalla
+    const showError = (title, message, button = false) => {
+        setState(prev => ({
+            ...prev,
+            error: { active: true, title, message, button },
+            modal: false,
+        }))
+    }
+
+    // Close Modal
+    const closeErrorModal = () => {
+        setState(prev => ({ ...prev, error: { ...prev.error, active: false } }))
+    }
+
+    // Handle form submission
+    const onSubmit = async () => {
+        try {
+            const reservationData = {
+                idPersona: userData.id,
+                idServicio: servicesData?.servicios?.[serviceValue]?.idServicio,
+                idSede: servicesData?.servicios?.[serviceValue]?.sedes?.[headquartersValue]?.idSede,
+                fechaReserva: dateValue,
+                horaReserva: timeValue,
+                duracionReserva: datesData.duracionReserva,
+                servicio: serviceValue,
+                sede: headquartersValue,
+            }
+        
+            setState(prev => ({ ...prev, modal: true }))
+            setReservationData(reservationData)
+        
+            const response = await postReservation({ data: reservationData })
+        
+            setTimeout(() => {
+                setState(prev => ({ ...prev, modal: false }))
+                if (!response) {
+                    showError('Lo sentimos', 'Intente realizar la acción nuevamente en unos minutos. Si el problema persiste, por favor, contacte a nuestro equipo de soporte.', true)
+                    return
+
+                } else if (response?.error === 1) {
+                    showError('Lo sentimos', 'Solo puedes realizar una reserva por día. Para realizar cambios en tu reserva, por favor, selecciona la sección de "Consultar reserva"', true)
+                    return
+                } else {
+                    goNext()
+                }
+            }, 2000)
+
+        } catch (error) {
+            console.error('Error handling form submission:', error)
+            showError('Lo sentimos', 'Intente realizar la acción nuevamente en unos minutos. Si el problema persiste, por favor, contacte a nuestro equipo de soporte.', true)
+        }
+    }
+
+    // Effects Initial Fetch
+    useEffect(() => { 
+        fetchInitialData() 
     }, [])
-
+    
     // Update headquarters options when service changes
     useEffect(() => {
         setValue('headquarters', '')
-        if (serviceValue) {
-            const newOptions = dropdownObject(servicesData?.servicios?.[serviceValue], 'sedes') || []
-            setOptionsHeadquarter(newOptions)
-        }
+        if (!serviceValue) return
+        const newOptions = dropdownObject(servicesData?.servicios?.[serviceValue], 'sedes') || []
+        setState(prev => ({ ...prev, options: { ...prev.options, headquarters: newOptions } }))
     }, [serviceValue])
 
     // Fetch service hours when headquarters changes
-    useEffect(() => {
+    useEffect(() => { 
+        setValue('date', '')
         if (!headquartersValue) return
-
-        const fetchServiceHours = async () => {
-            try {
-                const idConfigReservation = servicesData?.servicios?.[serviceValue]?.sedes?.[headquartersValue]?.idConfiguracionReservas
-
-                if (idConfigReservation) {
-                    const { data } = await getServiceHours(idConfigReservation)
-                    setDatesData(data)
-                    setOptionsDates(dropdownDate(data, 'fechas'))
-                } else {
-                    console.warn('No reservation configuration found for the selected headquarter.')
-                }
-            } catch (error) {
-                console.error('Error fetching service hours:', error)
-            }
-        }
-
         fetchServiceHours()
     }, [headquartersValue])
 
     // Update available times when date changes
     useEffect(() => {
-        if (date) {
-            setAvailableTimes(dropdownList(datesData?.fechas?.[date]) || [])
-        }
-    }, [date])
-
-    // Handle form submission
-    const onSubmit = async () => {
-        try {
-            const data = {
-                idPersona: userData.id,
-                idServicio: servicesData?.servicios?.[serviceValue]?.idServicio,
-                idSede: servicesData?.servicios?.[serviceValue]?.sedes?.[headquartersValue]?.idSede,
-                fechaReserva: date,
-                horaReserva: time,
-                duracionReserva: datesData.duracionReserva,
-            }
-            
-            setReservationData(data)
-            const response = await reservationFetch({ data })
-            console.log(response)
-            
-            // goNext()
-            
-        } catch (error) {
-            console.error('Error handling form submission:', error)
-        }
-    }
+        setValue('time', '')
+        if (!dateValue) return
+        const times = dropdownList(datesData?.fechas?.[dateValue]) || []
+        setState(prev => ({ ...prev, options: { ...prev.options, times } }))
+    }, [dateValue])
 
     // Navigation functions
-    // const goNext = useCallback(() => { navigate("/summary", { replace: true }) }, [navigate])
+    const goNext = useCallback(() => { navigate("/summary", { replace: true }) }, [navigate])
     const goBack = useCallback(() => { navigate('/login', { replace: true }) }, [navigate])
 
     return (
@@ -149,7 +220,7 @@ const ReservationPage = () => {
                             type='select' 
                             error={errors.service} 
                             placeholder='Selecciona una opción' 
-                            dropdownOptions={optionsService}
+                            dropdownOptions={options.service}
                             defaultValue={''}
                         />
                         {serviceValue && (
@@ -160,7 +231,7 @@ const ReservationPage = () => {
                                 type='select' 
                                 error={errors.headquarters} 
                                 placeholder='Selecciona una opción' 
-                                dropdownOptions={optionsHeadquarter} 
+                                dropdownOptions={options.headquarters} 
                                 defaultValue={''} 
                             />
                         )}
@@ -172,11 +243,11 @@ const ReservationPage = () => {
                                 type='select' 
                                 error={errors.date} 
                                 placeholder='Selecciona una opción' 
-                                dropdownOptions={optionsDates} 
+                                dropdownOptions={options.dates} 
                                 defaultValue={''} 
                             />
                         )}
-                        { date && (
+                        {dateValue  && (
                             <CustomDropdown 
                                 name='time' 
                                 label='Selecciona la hora de la reserva' 
@@ -184,11 +255,11 @@ const ReservationPage = () => {
                                 type='select' 
                                 error={errors.time} 
                                 placeholder='Selecciona una opción' 
-                                dropdownOptions={availableTimes} 
+                                dropdownOptions={options.times} 
                                 defaultValue={''} 
                             />
                         )}
-                        {time && (
+                        {timeValue  && (
                             <div className={styles.containerCheck}>
                                 <CustomCheckButton 
                                     name="termsAndConditions" 
@@ -211,10 +282,28 @@ const ReservationPage = () => {
                                 name='buttonGoBack' 
                                 label='Regresar' 
                                 type='button' 
-                                onClick={goBack} 
+                                onClick={goBack}
                             />
                         </div>
                     </form>
+                    { modal && (
+                        <CustomModal 
+                            title='Verificando información'
+                            description='Estamos validando los datos ingresados. Este proceso puede tardar unos segundos.'
+                            src={delayIcon}
+                            alt='Logo modal delay'
+                        />
+                    )}
+                    { error.active && (
+                        <CustomModal 
+                            title={error.title}
+                            description={error.message}
+                            src={errorIcon}
+                            alt='Logo modal error'
+                            showButton={error.button}
+                            onButtonClick={closeErrorModal}
+                        />
+                    )} 
                 </div>
                 <LogoFooter/>
             </div>

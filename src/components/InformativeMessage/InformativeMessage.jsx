@@ -1,4 +1,4 @@
-import { CalendarCheck, BookOpenCheck, CircleCheckBig } from 'lucide-react';
+import { CalendarCheck, BookOpenCheck, CircleCheckBig } from 'lucide-react'
 import PropTypes from 'prop-types'
 
 import styles from './InformativeMessage.module.css'

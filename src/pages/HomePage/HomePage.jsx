@@ -1,65 +1,100 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useNavigate, useParams } from "react-router-dom"
 
+import viTurnoIcon from '../../assets/favicon.png'
+import errorIcon from '../../assets/error-modal.png'
+
+import Logo from '../../components/Logos/Logo'
 import InformativeMessage from '../../components/InformativeMessage/InformativeMessage'
 import CustomButton from '../../components/Button/CustomButton'
-import Logo from '../../components/Logos/Logo'
 import LogoFooter from '../../components/Logos/LogoFooter'
+import CustomModal from '../../components/Modal/CustomModal'
 
-import viTurnoIcon from '../../assets/favicon.png'
-
+import { getTenant } from '../../api/tenant'
+import { getDocumentType } from '../../api/documentType'
 import { setTenantData, setDocumentType } from '../../util/localStorage'
-import { documentTypeFetch } from '../../api/documentType'
-import { tenantFetch } from '../../api/tenant'
 
 import styles from './HomePage.module.css'
 
 const HomePage = () => {
-    const [modal, setModal] = useState(false)
     const navigate = useNavigate()
     const { tenant } = useParams()
 
+    // Modal state for errors and information
+    const [modalState, setModalState] = useState({ 
+        loading: false, 
+        error: false, 
+        title: '', 
+        message: '', 
+        button: false,
+    })
+
+    // Handlers for error and modal
+    const showError = useCallback((title, message, button = false) => {
+        setModalState({ 
+            loading: false, 
+            error: true, 
+            title,
+            message, 
+            button,
+        })
+    }, [])
+
     const handleViewReservation = async () => {
-        const responseTenant = await tenantFetch(tenant)
-        if (!responseTenant && !responseTenant?.data) {
-            console.log('Error en la solicitud API de consulta de tenant')
-            return
+        try {
+            const tenantData = await getTenant(tenant)
+            if (!tenantData?.data) {
+                console.error('Error fetching tenant data')
+                showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
+                return
+            }
+        
+            setTenantData(JSON.stringify(tenantData.data))
+            navigate("/consultReservation", { replace: true })
+
+        } catch (error) {
+            console.error('Error in handleViewReservation:', error)
+            showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
         }
-
-        setTenantData(JSON.stringify(responseTenant.data))
-
-        navigate("/consultReservation", { replace: true })
     }
 
-    const handleNewReservation  = async () => {
-        setModal(true)
-
-        const responseTenant = await tenantFetch(tenant)
-        if (!responseTenant && !responseTenant?.data) {
-            console.log('Error en la solicitud API de consulta de tenant')
-            return
-        }
-
-        if(responseTenant.data.estado !== "ACTIVO") {
-            console.log('Error en la solicitud API de consulta de tenant, el tenant no se encuentra activo')
-            return
-        }
-
-        setTenantData(JSON.stringify(responseTenant.data))
+    const handleNewReservation = async () => {
+        try {
+            setModalState({ loading: true, error: false, title: '', message: '', button: false })
         
-        const response = await documentTypeFetch()        
-        if (!response && !response?.data) {
-            console.log('Error en la solicitud API de identificaciones')
-            return
-        }
+            const tenantData = await getTenant(tenant)
+            if (!tenantData?.data || tenantData.data.estado !== "ACTIVO") {
+                console.error('Tenant data is invalid or inactive')
+                showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
+                return
+            }
         
-        const result = response.data.filter(item => item.estado === "ACTIVO").map(item => ({ cod: item.codigo, value: item.nombre }))
-        setDocumentType(result)
+            setTenantData(JSON.stringify(tenantData.data))
+        
+            const documentData = await getDocumentType()
+            if (!documentData?.data) {
+                console.error('Error fetching document types')
+                showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
+                return
+            }
+        
+            const activeDocuments = documentData.data
+                .filter(({ estado }) => estado === "ACTIVO")
+                .map(({ codigo, nombre }) => ({ cod: codigo, value: nombre }))
+        
+            setDocumentType(activeDocuments)
+        
+            setModalState({ loading: false, error: false, title: '', message: '', button: false })
+            setTimeout(() => navigate("/login", { replace: true }), 5000)
 
-        setTimeout(() => { navigate("/login", { replace: true }); }, 5000)
+        } catch (error) {
+            console.error('Error in handleNewReservation:', error)
+            showError('Ocurrió un error al crear una nueva reserva.')
+        }
     }
+
 
     return (
         <div className={styles.container}>
@@ -72,21 +107,36 @@ const HomePage = () => {
                             <InformativeMessage/>
                         </div>
                         <div className={styles.buttonContainer}>
-                            <CustomButton name="activateTurn" label="Consultar reserva" type="button" onClick={handleViewReservation}/>
-                            <CustomButton name="newReservation" label="Nueva Reserva" type="button" onClick={handleNewReservation} />
+                            <CustomButton 
+                                name="activateTurn" 
+                                label="Consultar reserva" 
+                                type="button"
+                                 onClick={handleViewReservation}
+                            />
+                            <CustomButton 
+                                name="newReservation" 
+                                label="Nueva Reserva" 
+                                type="button" 
+                                onClick={handleNewReservation} 
+                            />
                         </div>
                     </div>
-                    { modal && (
-                        <div className={styles.modal}>
-                            <div className={styles.modalContent}>
-                                <div className={styles.header}>
-                                    <img src={viTurnoIcon} alt="Viturno logo2" className={styles.logo2} />
-                                    <h1 className={styles.title2}>La reserva no es una cita</h1>
-                                </div>
-                                <p>Te recomendamos activar tu turno 5 minutos antes y durante los primeros 10 minutos de la hora de tu reserva.</p>
-                            </div>
-                        </div>
-                    )}     
+                    {modalState.loading && (
+                        <CustomModal 
+                            title='La reserva no es una cita'
+                            description='Te recomendamos activar tu turno 5 minutos antes y durante los primeros 10 minutos de la hora de tu reserva.'
+                            src={viTurnoIcon}
+                            alt='Logo modal'
+                        />
+                    )}
+                    {modalState.error && (
+                        <CustomModal 
+                            title={modalState.title}
+                            description={modalState.message}
+                            src={errorIcon}
+                            alt='Logo modal error'
+                        />
+                    )}   
                 </div>
                 <LogoFooter/>
             </div>

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { ThemeContext } from './useThemeContext'
 
 export const ThemeProvider = ({ children }) => {
-    const getPreferredTheme = () => { return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' };
-
+    const getPreferredTheme = () => { return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' }
+    
     const [theme, setTheme] = useState(getPreferredTheme())
     const [color, setColor] = useState('1')
 
@@ -15,11 +15,11 @@ export const ThemeProvider = ({ children }) => {
         mediaQuery.addEventListener('change', handleChange)
         return () => mediaQuery.removeEventListener('change', handleChange)
     }, [])
-
+    
     const toggleTheme = () => { setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light')) }
 
     const changeColor = (newColor) => { setColor(newColor) }    
-
+    
     return (
         <ThemeContext.Provider value={{ theme, color, toggleTheme, changeColor }}>
             <div data-theme={theme} data-color={color}>

@@ -1,0 +1,41 @@
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background-color: var(--primary-bg-card);
+}
+
+/* Modal Content */
+.modalContent {
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 500px;
+    margin: 2rem;
+    box-shadow: 0 4px 8px var(--primary-box-shadow-card);
+    background-color: var(--background-color-form);
+}
+
+/* Logo */
+.logo {
+    width: 40px;
+}
+
+/* Title */
+.title {
+    font-size: 1.7rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* P */
+.modalContent p {
+    margin-bottom: 1rem;
+}
