@@ -13,12 +13,6 @@
     font-weight: bold;
 }
 
-@media (min-width: 768px) {
-    .notFoundContainer h1 {
-        font-size: 3rem;
-    }
-}
-
 .responsiveImage {
     max-width: 60vw;
     width: 60vw;
@@ -26,6 +20,12 @@
     display: block;
     margin: 0%;
     padding: 0%;
+}
+
+@media (min-width: 768px) {
+    .notFoundContainer h1 {
+        font-size: 3rem;
+    }
 }
 
 @media (min-width: 1024px) {
