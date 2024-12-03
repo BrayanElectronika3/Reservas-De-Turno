@@ -25,6 +25,7 @@
     --primary-bg-button: #381283;
     --primary-bg-button-hover: #5C22D1;
     --primary-bg-button-active:  #381283;
+    --primary-bg-button-disabled:  #a0a0a0;
     --primary-shadow-button: rgba(0, 0, 0, 0.1);
     --second-shadow-button: rgba(0, 0, 0, 0.2);
     --third-shadow-button: #4719a5;
@@ -56,6 +57,11 @@
     --primary-invalid-input: #ef4444;
     --primary-invalid-shadow-input: rgba(239, 68, 68, 0.2);
     --primary-error-input: #ef4444;
+    /* Custom Card */
+    --primary-bg-card: #ffffff;
+    --primary-border-card: #ddd;
+    --primary-shadow-card: rgba(0, 0, 0, 0.1);
+    --primary-shadow-hover: rgba(0, 0, 0, 0.15);
     /* Home Page */
     --primary-shadow-card: rgba(0, 0, 0, 0.1);
     --primary-bg-card: rgba(0, 0, 0, 0.6); 
@@ -67,4 +73,8 @@
     --primary-shadow-card-register: rgba(0, 0, 0, 0.1);
     /* Reservation Page */
     --primary-shadow-card-reservation: rgba(0, 0, 0, 0.1);
+    /* Review Page */
+    --primary-scrool-hover-review: #555;
+    --primary-scrool-color-review: #cccccc;
+    --primary-scrool-thumb-review: #cccccc;
 }

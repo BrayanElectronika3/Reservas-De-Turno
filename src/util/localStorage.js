@@ -105,3 +105,25 @@ export const setReservationData = (data) => {
         return null
     }
 }
+
+// Reservations by person
+export const getReservationsByPerson = () => {
+    try {
+        const data = localStorage.getItem('reservationsByPerson')
+        return data ? JSON.parse(data) : {}
+    } catch (error) {
+        console.error('Error al obtener los datos de las reservas por persona:', error)
+        return {}
+    }
+}
+
+export const setReservationsByPerson = (data) => {
+    try {
+        if (data === null || data === undefined || data === '') throw new Error ('Error al obtener los datos de las reservas por persona')
+        localStorage.setItem('reservationsByPerson', JSON.stringify(data))
+        return data
+    } catch (error) {
+        console.error('Error al obtener los datos de las reservas por persona', error)
+        return null
+    }
+}

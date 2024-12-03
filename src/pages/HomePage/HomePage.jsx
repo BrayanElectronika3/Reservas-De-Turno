@@ -86,8 +86,10 @@ const HomePage = () => {
         
             setDocumentType(activeDocuments)
         
-            setModalState({ loading: false, error: false, title: '', message: '', button: false })
-            setTimeout(() => navigate("/login", { replace: true }), 5000)
+            setTimeout(() => {
+                setModalState({ loading: false, error: false, title: '', message: '', button: false })
+                navigate("/login", { replace: true })
+            }, 5000)
 
         } catch (error) {
             console.error('Error in handleNewReservation:', error)

@@ -6,9 +6,11 @@ export const schemaRegister = z.object({
     firstName: z.string().min(1, { 
         message: ERROR_MESSAGES.invalidName 
     }),
+    secondName: z.string(),
     firstLastName: z.string().min(1, { 
         message: ERROR_MESSAGES.invalidName 
     }),
+    secondLastName: z.string(),
     email: z.string().regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, { 
         message: ERROR_MESSAGES.invalidEmail 
     }),

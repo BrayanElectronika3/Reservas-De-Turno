@@ -17,7 +17,7 @@ import CustomModal from '../../components/Modal/CustomModal'
 
 import { schemaLogin } from '../../schemas/login.schema'
 import { postUser } from '../../api/user'
-import { mappingObject } from '../../util/mappingObject'
+import { mappingObject } from '../../util/object'
 import { getWorkSpaceTenant, getDocumentType, setuser } from '../../util/localStorage'
 
 import styles from './LoginPage.module.css'
@@ -72,6 +72,7 @@ const LoginPage = () => {
         
             if (!response?.data) {
                 console.log('User API request error')
+                setuser(mappedData)
                 setTimeout(() => showError('Lo sentimos', 'Usuario no encontrado.'), 2000)
                 setTimeout(() => goRegister(), 3000)
                 return

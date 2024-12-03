@@ -143,6 +143,7 @@ const ReservationPage = () => {
                 duracionReserva: datesData.duracionReserva,
                 servicio: serviceValue,
                 sede: headquartersValue,
+                estado: 'ACTIVO',
             }
         
             setState(prev => ({ ...prev, modal: true }))

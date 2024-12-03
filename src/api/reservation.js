@@ -26,3 +26,24 @@ export const postReservation = async (data) => {
     
     return await response.json()
 }
+
+export const getReservationsByPerson = async (idPerson) => {
+    const IDTenant = getIDTenant()
+    if (!IDTenant) return null
+
+    try {
+        const response = await fetch(`${BASE_URL}/reservas/api/reservas/consultar/${idPerson}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Tenant': IDTenant
+            }
+        })
+        if (!response.ok) return null
+        return await response.json()
+
+    } catch (error) {
+        console.error("Error getting reservations by person data:", error)
+        return null
+    }
+}

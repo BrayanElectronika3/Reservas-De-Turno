@@ -31,3 +31,9 @@
     outline: none;
     box-shadow: 0 0 0 3px var(--third-shadow-button);
 }
+
+/* Custom Button Disabled  */
+.customButton:disabled {
+    background-color: var(--primary-bg-button-disabled);
+    cursor: not-allowed;
+}

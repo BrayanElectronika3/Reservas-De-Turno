@@ -1,0 +1,107 @@
+/* Main Container */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Content */
+.content {
+    padding: 0.4rem;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 20px;
+    border: 0.1px solid var(--primary-border-card);
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    transition: max-width 0.3s ease;
+    background-color: var(--background-color-form);
+    box-shadow: 0 4px 8px var(--primary-shadow-card-reservation);
+}
+
+/* Content Card */
+.contentCard {
+    padding: 1.5rem 1.5rem;
+    gap: 1.5rem;
+}
+
+/* Content Cards */
+.cards {
+    max-height: 60vh;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    overflow-y: auto;
+    scrollbar-width: thin; /* Soporte para Firefox */
+    scrollbar-color: var(--primary-scrool-color-review) transparent; /* Color del scrollbar en Firefox */
+}
+
+/* Estilos para navegadores basados en WebKit */
+.cards::-webkit-scrollbar {
+    width: 4px; /* Ancho del scrollbar */
+}
+
+.cards::-webkit-scrollbar-track {
+    background: transparent; /* Fondo del track (invisible) */
+}
+
+.cards::-webkit-scrollbar-thumb {
+    background-color: var(--primary-scrool-thumb-review); /* Color del thumb */
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+.cards::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-scrool-hover-review); /* Color al pasar el mouse */
+}
+
+@media (min-width: 768px) {
+    .content {
+        width: 60%;
+        min-width: 500px;
+        max-width: 500px;
+        padding: 0.6rem;
+    }
+    .contentCard {
+        padding: 2rem 3rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .content {
+        width: 30%;
+        min-width: 500px;
+        max-width: 500px;
+        padding: 0.8rem;
+    }
+    .contentCard {
+        padding: 1rem 3rem;
+    }
+}
+
+/* Title */
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Summary */
+.summary {
+    margin-bottom: 1rem;
+}
+
+/* Text */
+p {
+    margin: 0.3rem 0.3rem;
+}
+
+/* Container Buttons */
+.containerButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}

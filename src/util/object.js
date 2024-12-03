@@ -6,3 +6,13 @@ export const mappingObject = (data, keyMapping) => {
         return acc
     }, {})
 }
+
+// Funcion para limpiar las claves sin valores
+export const cleanObject = (obj) => {
+    return Object.entries(obj).reduce((acc, [key, value]) => {
+        if (value !== null && value !== undefined) {
+            acc[key] = value
+        }
+        return acc
+    }, {})
+}
