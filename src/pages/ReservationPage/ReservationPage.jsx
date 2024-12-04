@@ -66,7 +66,8 @@ const ReservationPage = () => {
             const [user, configuration] = await Promise.all([
                 getUser(),
                 getServicesHeadquarters(),
-            ])            
+            ])
+
             setState(prev => ({
                 ...prev,
                 userData: user,
@@ -76,7 +77,7 @@ const ReservationPage = () => {
                     service: dropdownObject(configuration.data, 'servicios') || [],
                 },
             }))
-            
+
         } catch (error) {
             console.error('Error getting initial user and service data', error)
             showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')

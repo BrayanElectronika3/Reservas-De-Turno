@@ -10,6 +10,7 @@
     font-weight: 600;
     font-size: 1rem;
     margin-bottom: 0.5rem;
+    font-family: var(--font-family)
 }
 
 /* Input Field */
@@ -28,6 +29,7 @@
     -webkit-appearance: none;
     background: url('../../assets/flecha.png') no-repeat right 10px center;
     background-size: 16px;
+    font-family: var(--font-family);
 }
 
 .inputField:focus {
@@ -38,6 +40,7 @@
 /* Option */
 .option {
     font-size: 0.7rem;
+    font-family: var(--font-family);
 }
 
 @media (min-width: 768px) {

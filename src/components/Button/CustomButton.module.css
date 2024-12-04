@@ -11,6 +11,7 @@
     color: var(--primary-color-button);
     background-color: var(--primary-bg-button);
     box-shadow: 0 2px 4px var(--primary-shadow-button);
+    font-family: var(--font-family);
 }
 
 /* Custom Button Hover */

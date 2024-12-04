@@ -27,6 +27,23 @@ export const postReservation = async (data) => {
     return await response.json()
 }
 
+export const patchReservation = async (idReservation, data) => {
+    const IDTenant = getIDTenant()
+    if (!IDTenant) return null
+
+    const response = await fetch(`${BASE_URL}/reservas/api/reservas/${idReservation}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Tenant': IDTenant
+        },
+        body: JSON.stringify(data)
+    })
+    
+    if (!response.ok) return null
+    return await response.json()
+}
+
 export const getReservationsByPerson = async (idPerson) => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null

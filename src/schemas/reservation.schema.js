@@ -30,3 +30,18 @@ export const schemaReservation = z.object({
         }) 
     }),
 })
+
+export const schemaReservationEdit = z.object({
+    date: z.preprocess((val) => {
+        if (typeof val === 'string' && !isNaN(Date.parse(val))) return new Date(val).toISOString()
+        return val
+    }, z.string({ 
+        message: ERROR_MESSAGES.invalidDate 
+    }).datetime({ 
+        message: ERROR_MESSAGES.invalidDate 
+    })),
+
+    time: z.string().min(1, { 
+        message: ERROR_MESSAGES.invalidTime 
+    }),    
+})

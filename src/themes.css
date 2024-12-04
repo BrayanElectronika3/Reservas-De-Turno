@@ -3,6 +3,7 @@
     --text-color: #000000;
     --primary-color: #000000;
     --background-color-form: #ffffff;
+    --font-family: 'Nunito Sans', sans-serif;
 }
 
 [data-theme='light'] {
@@ -22,20 +23,20 @@
 [data-color='1'] {
     /* Button */
     --primary-color-button: #ffffff;
-    --primary-bg-button: #381283;
-    --primary-bg-button-hover: #5C22D1;
-    --primary-bg-button-active:  #381283;
+    --primary-bg-button: #5953a4;
+    --primary-bg-button-hover: #5953D1;
+    --primary-bg-button-active:  #5953a4;
     --primary-bg-button-disabled:  #a0a0a0;
     --primary-shadow-button: rgba(0, 0, 0, 0.1);
     --second-shadow-button: rgba(0, 0, 0, 0.2);
-    --third-shadow-button: #4719a5;
+    --third-shadow-button: #5953D1;
     /* Check Box */
-    --primary-check-box: #381283;
+    --primary-check-box: #5953a4;
     --primary-error-check-box: #ef4444;
     /* Date Time */
     --primary-border-date-time: #bbbbbb;
     --primary-shadow-date-time: rgba(0, 0, 0, 0.05);
-    --primary-border-date-time-focus: #381283;
+    --primary-border-date-time-focus: #5953a4;
     --second-shadow-date-time-focus: rgba(99, 49, 138, 0.2);
     --primary-invalid-date-time: #ef4444;
     --primary-invalid-shadow-date-time: rgba(239, 68, 68, 0.2);
@@ -43,7 +44,7 @@
     /* Dropdown */
     --primary-border-dropdown: #bbbbbb;
     --primary-shadow-dropdown: rgba(0, 0, 0, 0.05);
-    --primary-border-dropdown-focus: #381283;
+    --primary-border-dropdown-focus: #5953a4;
     --second-shadow-dropdown-focus: rgba(99, 49, 138, 0.2);
     --primary-invalid-dropdown: #ef4444;
     --primary-invalid-shadow-dropdown: rgba(239, 68, 68, 0.2);
@@ -52,7 +53,7 @@
     /* Input */
     --primary-border-input: #bbbbbb;
     --primary-shadow-input: rgba(0, 0, 0, 0.05);
-    --primary-border-input-focus: #381283;
+    --primary-border-input-focus: #5953a4;
     --second-shadow-input-focus: rgba(99, 49, 138, 0.2);
     --primary-invalid-input: #ef4444;
     --primary-invalid-shadow-input: rgba(239, 68, 68, 0.2);

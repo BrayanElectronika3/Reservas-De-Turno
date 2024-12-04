@@ -16,10 +16,10 @@
     margin: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.3rem;
     transition: max-width 0.3s ease;
     background-color: var(--background-color-form);
-    box-shadow: 0 4px 8px var(--primary-shadow-card-login);
+    box-shadow: 0 4px 8px var(--primary-shadow-card-reservation);
 }
 
 /* Content Card */
@@ -58,6 +58,17 @@
     font-weight: 800;
     text-align: center;
     margin-bottom: 1rem;
+}
+
+/* Description */
+.description {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Description */
+.spaceDescription {
+    margin-bottom: 0.75rem;
 }
 
 /* Container Buttons */

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import styles from './CustomDropdown.module.css'
 
-const CustomInput = ({ name, label, control, type = "select", error, placeholder, defaultValue, dropdownOptions }) => {
+const CustomInput = ({ name, label, control, type = "select", error, placeholder, defaultValue, disabled = false, dropdownOptions }) => {
     return (
         <div className={styles.container}>
             <label htmlFor={name}>{label}</label>
@@ -11,6 +11,7 @@ const CustomInput = ({ name, label, control, type = "select", error, placeholder
                 name={name}
                 control={control}
                 defaultValue={defaultValue}
+                disabled={disabled}
                 render={({ field }) =>
                     <select
                         id={name}
@@ -41,6 +42,7 @@ CustomInput.propTypes = {
     error: PropTypes.object,
     placeholder: PropTypes.string,
     defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    disabled: PropTypes.bool,
     dropdownOptions: PropTypes.arrayOf(
         PropTypes.shape({
             value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,

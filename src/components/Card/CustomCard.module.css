@@ -32,3 +32,44 @@
 .customCardFooter {
     font-size: 1rem;
 }  
+
+/* Custom Card Button Container */
+.customCardButtonContainer {
+    position: relative; /* Establece el contenedor para posicionamiento relativo */
+}
+
+/* Custom Button */
+.customCardButton {
+    position: absolute; /* Botón absoluto dentro del contenedor */
+    bottom: 0px; /* Ajusta según el margen inferior deseado */
+    right: 0px; /* Ajusta según el margen derecho deseado */
+    padding: 0.3rem 0.3rem;
+    background-color: var(--primary-bg-button);
+    color: var(--primary-color-button);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px var(--second-shadow-button);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Custom Button Hover */
+.customCardButton:hover {
+    transform: translateY(-1px);
+    background-color: var(--primary-bg-button-hover);
+    box-shadow: 0 4px 6px var(--second-shadow-button);
+}
+
+/* Custom Button Active */
+.customCardButton:active {
+    transform: translateY(1px);
+    background-color: var(--primary-bg-button-active);
+}
+
+/* Custom Button Disabled */
+.customCardButton:disabled {
+    background-color: var(--primary-button-disabled-bg);
+    color: var(--primary-button-disabled-text);
+    cursor: not-allowed;
+    opacity: 0.6;
+}

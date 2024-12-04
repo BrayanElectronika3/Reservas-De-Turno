@@ -83,10 +83,15 @@
 /* Title */
 .title {
     font-size: 2rem;
-    font-weight: bold;
+    font-weight: 800;
     text-align: center;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+/* Description */
+.description {
+    font-size: 0.85rem;
 }
 
 /* Summary */

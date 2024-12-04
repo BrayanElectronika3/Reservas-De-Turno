@@ -45,3 +45,30 @@ export const getDaysHoursService = async (id) => {
         return null
     }
 }
+
+// Obtener la configuracion de la reserva de acuerdo al ID Tenant, ID Servicio y ID Sede
+export const getIDConfigReservation = async (idService, idHeadquarters) => {
+    const IDTenant = getIDTenant()
+    if (!IDTenant) return null
+    
+    try {
+        const response = await fetch(`${BASE_URL}/reservas/api/configuracion/idconfig`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Tenant': IDTenant
+            },
+            body: JSON.stringify({
+                idServicio: idService,
+                idSede: idHeadquarters
+            })
+        })
+    
+        if (!response.ok) return null
+        return await response.json()
+
+    } catch (error) {
+        console.error("Error getting id config data:", error)
+        return null
+    }
+}
