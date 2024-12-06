@@ -3,9 +3,6 @@
 import { useState, useCallback } from 'react'
 import { useNavigate, useParams } from "react-router-dom"
 
-import viTurnoIcon from '../../assets/favicon.png'
-import errorIcon from '../../assets/error-modal.png'
-
 import Logo from '../../components/Logos/Logo'
 import InformativeMessage from '../../components/InformativeMessage/InformativeMessage'
 import CustomButton from '../../components/Button/CustomButton'
@@ -127,16 +124,13 @@ const HomePage = () => {
                         <CustomModal 
                             title='La reserva no es una cita'
                             description='Te recomendamos activar tu turno 5 minutos antes y durante los primeros 10 minutos de la hora de tu reserva.'
-                            src={viTurnoIcon}
-                            alt='Logo modal'
                         />
                     )}
                     {modalState.error && (
                         <CustomModal 
                             title={modalState.title}
                             description={modalState.message}
-                            src={errorIcon}
-                            alt='Logo modal error'
+                            error={true}
                         />
                     )}   
                 </div>

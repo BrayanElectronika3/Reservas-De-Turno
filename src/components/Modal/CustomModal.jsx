@@ -1,15 +1,23 @@
 import PropTypes from 'prop-types'
 
+import errorIcon from '../../assets/error-modal.png'
+
+import CustomPuffLoader from '../PuffLoader/CustomPuffLoader'
 import CustomButton from '../Button/CustomButton'
 
 import styles from './CustomModal.module.css'
 
-const CustomModal = ({ title, description, src, alt, showButton, onButtonClick }) => {
+const CustomModal = ({ title, description, error = false, showButton, onButtonClick }) => {
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
                 <div>
-                    <img src={src} alt={alt} className={styles.logo} />
+                    { error ? (
+                        <img src={errorIcon} alt={'Logo modal error'} className={styles.logo}/>
+                    ) : (
+                        <CustomPuffLoader/>
+                    )
+                    }
                     <h1 className={styles.title}>{title}</h1>
                 </div>
                 <p>{description}</p>
@@ -29,8 +37,7 @@ const CustomModal = ({ title, description, src, alt, showButton, onButtonClick }
 CustomModal.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    src: PropTypes.string,
-    alt: PropTypes.string,
+    error: PropTypes.bool,
     showButton: PropTypes.bool,
     onButtonClick: PropTypes.func,
 }

@@ -5,9 +5,6 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import errorIcon from '../../assets/error-modal.png'
-import delayIcon from '../../assets/delay-modal.png'
-
 import Logo from '../../components/Logos/Logo'
 import CustomInput from '../../components/Input/CustomInput'
 import CustomButton from '../../components/Button/CustomButton'
@@ -195,16 +192,13 @@ const RegisterPage = () => {
                         <CustomModal 
                             title='Verificando información'
                             description='Estamos validando los datos ingresados. Este proceso puede tardar unos segundos.'
-                            src={delayIcon}
-                            alt='Logo modal delay'
                         />
                     )}
                     {modalState.error && (
                         <CustomModal 
                             title={modalState.title}
                             description={modalState.message}
-                            src={errorIcon}
-                            alt='Logo modal error'
+                            error={true}
                             showButton={modalState.button}
                             onButtonClick={closeErrorModal}
                         />

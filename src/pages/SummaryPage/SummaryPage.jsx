@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react'
 import { UserRoundCheck } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
-import errorIcon from '../../assets/error-modal.png'
-
 import Logo from '../../components/Logos/Logo'
 import CustomButton from '../../components/Button/CustomButton'
 import LogoFooter from '../../components/Logos/LogoFooter'
@@ -89,8 +87,7 @@ const SummaryPage = () => {
                     <CustomModal 
                         title={error.title}
                         description={error.message}
-                        src={errorIcon}
-                        alt='Logo modal error'
+                        error={true}
                         showButton={error.button}
                         onButtonClick={closeErrorModal}
                     />
