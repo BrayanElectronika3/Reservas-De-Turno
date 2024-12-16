@@ -2,7 +2,7 @@ import { BASE_URL } from './config'
 import { getIDTenant } from '../util/localStorage'
 
 export const postUser = async (data) => {
-    const response = await fetch(`${BASE_URL}/reservas/api/personas/consultar`, {
+    const response = await fetch(`${BASE_URL}${import.meta.env.VITE_USER_CONSULTAR}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ export const postCreateUser = async (data) => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null
 
-    const response = await fetch(`${BASE_URL}/reservas/api/personas`, {
+    const response = await fetch(`${BASE_URL}${import.meta.env.VITE_USER_CREAR}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

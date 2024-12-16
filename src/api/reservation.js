@@ -5,7 +5,7 @@ export const postReservation = async (data) => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null
 
-    const response = await fetch(`${BASE_URL}/reservas/api/reservas`, {
+    const response = await fetch(`${BASE_URL}${import.meta.env.VITE_RESERVATION_CREAR}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const patchReservation = async (idReservation, data) => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null
 
-    const response = await fetch(`${BASE_URL}/reservas/api/reservas/${idReservation}`, {
+    const response = await fetch(`${BASE_URL}${import.meta.env.VITE_RESERVATION_ACTUALIZAR}${idReservation}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export const getReservationsByPerson = async (idPerson) => {
     if (!IDTenant) return null
 
     try {
-        const response = await fetch(`${BASE_URL}/reservas/api/reservas/consultar/${idPerson}`, {
+        const response = await fetch(`${BASE_URL}${import.meta.env.VITE_RESERVATION_CONSULTAR}${idPerson}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

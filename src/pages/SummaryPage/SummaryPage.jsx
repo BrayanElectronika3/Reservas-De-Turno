@@ -48,6 +48,7 @@ const SummaryPage = () => {
 
     // Handle finalization
     const handleFinish = () => {
+        localStorage.clear()
         navigate(`/${getWorkSpaceTenant()}`, { replace: true })
     }
 

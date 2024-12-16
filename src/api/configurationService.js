@@ -7,7 +7,7 @@ export const getServicesHeadquarters = async () => {
     if (!IDTenant) return null
     
     try {
-        const response = await fetch(`${BASE_URL}/reservas/api/configuracion/serviceheadquarters`, {
+        const response = await fetch(`${BASE_URL}${import.meta.env.VITE_CONFIG_RESERVATION_SERVICE_HEADQUEARTERS}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export const getDaysHoursService = async (id) => {
     if (!IDTenant) return null
     
     try {
-        const response = await fetch(`${BASE_URL}/reservas/api/configuracion/daysHoursService/${id}`, {
+        const response = await fetch(`${BASE_URL}${import.meta.env.VITE_CONFIG_RESERVATION_DAYS_HOURS_SERVICE}${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export const getIDConfigReservation = async (idService, idHeadquarters) => {
     if (!IDTenant) return null
     
     try {
-        const response = await fetch(`${BASE_URL}/reservas/api/configuracion/idconfig`, {
+        const response = await fetch(`${BASE_URL}${import.meta.env.VITE_CONFIG_RESERVATION_CONSULTAR_CONFIG}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

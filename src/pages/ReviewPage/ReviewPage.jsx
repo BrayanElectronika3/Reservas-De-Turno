@@ -33,7 +33,10 @@ const ReviewPage = () => {
         goEdit()
     }
 
-    const goNext = useCallback(() => { navigate(`/${getWorkSpaceTenant()}`, { replace: true }) }, [navigate])
+    const goNext = useCallback(() => { 
+        localStorage.clear()
+        navigate(`/${getWorkSpaceTenant()}`, { replace: true }) 
+    }, [navigate])
     const goEdit = useCallback(() => { navigate(`/reservationEdit`, { replace: true }) }, [navigate])
     const goBack = useCallback(() => { navigate('/consultReservation', { replace: true }) }, [navigate])
 
