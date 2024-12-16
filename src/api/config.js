@@ -1,1 +1,1 @@
-export const BASE_URL = `${import.meta.env.VITE_PROTOCOL}${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT}`
+export const BASE_URL = `${import.meta.env.VITE_SERVER_PROTOCOL}${import.meta.env.VITE_SERVER_HOST}:${import.meta.env.VITE_SERVER_PORT}`
