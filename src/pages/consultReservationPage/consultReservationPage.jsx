@@ -13,7 +13,8 @@ import LogoFooter from '../../components/Logos/LogoFooter'
 import CustomModal from '../../components/Modal/CustomModal'
 
 import { schemaLogin } from '../../schemas/login.schema'
-import { getWorkSpaceTenant, getDocumentType, setuser, setReservationsByPerson } from '../../util/localStorage'
+import { getDocumentType } from '../../api/documentType'
+import { getWorkSpaceTenant, setuser, setReservationsByPerson, setDocumentType } from '../../util/localStorage'
 import { mappingObject } from '../../util/object'
 import { postUser } from '../../api/user'
 import { getReservationsByPerson } from '../../api/reservation'
@@ -62,12 +63,23 @@ const ConsultReservationPage = () => {
 
     // Fetch document types on mount
     useEffect(() => {
-        const documentTypes = getDocumentType()
-        if (!documentTypes) {
-            showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
-            return
+        const fetchDocumentTypes = async () => {
+            const documentData = await getDocumentType()
+            if (!documentData?.data) {
+                console.error('Error fetching document types')
+                showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
+                return
+            }
+        
+            const activeDocuments = documentData.data
+                .filter(({ estado }) => estado === "ACTIVO")
+                .map(({ codigo, nombre }) => ({ cod: codigo, value: nombre, label: nombre }))
+        
+            setDocumentType(activeDocuments)
+            setDocumentData(activeDocuments)
         }
-        setDocumentData(documentTypes)
+    
+        fetchDocumentTypes()
     }, [])
 
     // Handle onSubmit
