@@ -1,7 +1,7 @@
 import { BASE_URL } from './config'
 import { getIDTenant } from '../util/localStorage'
 
-export const postUser = async (data) => {
+export const postUserData = async (data) => {
     const response = await fetch(`${BASE_URL}${import.meta.env.VITE_USER_CONSULTAR}`, {
         method: 'POST',
         headers: {
@@ -13,7 +13,7 @@ export const postUser = async (data) => {
     return await response.json()
 }
 
-export const postCreateUser = async (data) => {
+export const postCreateUserData = async (data) => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null
 

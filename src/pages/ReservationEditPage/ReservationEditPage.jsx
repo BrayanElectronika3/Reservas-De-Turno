@@ -16,8 +16,8 @@ import { schemaReservationEdit } from '../../schemas/reservation.schema'
 import { dropdownList, dropdownDate } from '../../util/dropdown'
 import { formatDateString } from '../../util/date'
 import { getUser, getReservationData, setReservationData } from '../../util/localStorage'
-import { getDaysHoursService, getIDConfigReservation } from '../../api/configurationService'
-import { patchReservation } from '../../api/reservation'
+import { getDaysHoursServiceData, getIDConfigReservationData } from '../../api/configurationService'
+import { patchReservationData } from '../../api/reservation'
 
 import styles from './ReservationEditPage.module.css'
 
@@ -75,7 +75,7 @@ const ReservationEditPage = () => {
             }))
             
             setTimeout(async () => {
-                const configData = await getIDConfigReservation(reservation?.servicio?.id, reservation?.sede?.id)
+                const configData = await getIDConfigReservationData(reservation?.servicio?.id, reservation?.sede?.id)
                 if (!configData?.data) {
                     console.log('No reservation configuration found.')
                     showError(
@@ -86,7 +86,7 @@ const ReservationEditPage = () => {
                     return
                 }
 
-                const { data } = await getDaysHoursService(configData.data.id)
+                const { data } = await getDaysHoursServiceData(configData.data.id)
                 if (!Object.keys(data?.fechas || {}).length) {
                     console.log('No dates available.')
                     showError(
@@ -132,7 +132,7 @@ const ReservationEditPage = () => {
             setState(prev => ({ ...prev, modal: true }))
             setReservationData(reservationData)
 
-            const response = await patchReservation(state?.idConfig, { data: reservationData })
+            const response = await patchReservationData(state?.idConfig, { data: reservationData })
 
             setTimeout(() => {
                 setState(prev => ({ ...prev, modal: false }))

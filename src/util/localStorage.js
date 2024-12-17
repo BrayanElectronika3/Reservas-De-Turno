@@ -10,7 +10,7 @@ export const setTenantData = (nameTenant) => {
     }
 }
 
-export const getTenantData = () => {
+export const getTenant = () => {
     try {
         const data = localStorage.getItem('tenant')
         return data ? data : ''

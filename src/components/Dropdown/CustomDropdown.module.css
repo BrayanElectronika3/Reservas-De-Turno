@@ -41,6 +41,8 @@
 .option {
     font-size: 0.7rem;
     font-family: var(--font-family);
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
 }
 
 @media (min-width: 768px) {

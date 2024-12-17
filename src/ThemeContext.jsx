@@ -6,8 +6,8 @@ import { ThemeContext } from './useThemeContext'
 export const ThemeProvider = ({ children }) => {
     const getPreferredTheme = () => { return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' }
     
-    // const [theme, setTheme] = useState(getPreferredTheme())
-    const [theme, setTheme] = useState('light')
+    const [theme, setTheme] = useState(getPreferredTheme())
+    // const [theme, setTheme] = useState('light')
     const [color, setColor] = useState('1')
 
     useEffect(() => {

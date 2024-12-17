@@ -13,7 +13,7 @@ import LogoFooter from '../../components/Logos/LogoFooter'
 import CustomModal from '../../components/Modal/CustomModal'
 
 import { schemaLogin } from '../../schemas/login.schema'
-import { postUser } from '../../api/user'
+import { postUserData } from '../../api/user'
 import { mappingObject } from '../../util/object'
 import { getWorkSpaceTenant, getDocumentType, setuser } from '../../util/localStorage'
 
@@ -65,7 +65,7 @@ const LoginPage = () => {
             
             const keyMapping = { documentType: 'prefijo', documentNumber: 'identificacion' }
             const mappedData = mappingObject(data, keyMapping)
-            const response = await postUser(mappedData)
+            const response = await postUserData(mappedData)
         
             if (!response?.data) {
                 console.log('User API request error')

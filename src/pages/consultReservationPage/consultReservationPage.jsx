@@ -13,11 +13,10 @@ import LogoFooter from '../../components/Logos/LogoFooter'
 import CustomModal from '../../components/Modal/CustomModal'
 
 import { schemaLogin } from '../../schemas/login.schema'
-import { getDocumentType } from '../../api/documentType'
-import { getWorkSpaceTenant, setuser, setReservationsByPerson, setDocumentType } from '../../util/localStorage'
+import { getWorkSpaceTenant, setuser, setReservationsByPerson, setDocumentType, getDocumentType } from '../../util/localStorage'
 import { mappingObject } from '../../util/object'
-import { postUser } from '../../api/user'
-import { getReservationsByPerson } from '../../api/reservation'
+import { postUserData } from '../../api/user'
+import { getReservationsByPersonData } from '../../api/reservation'
 
 import styles from './ConsultReservationPage.module.css'
 
@@ -63,23 +62,13 @@ const ConsultReservationPage = () => {
 
     // Fetch document types on mount
     useEffect(() => {
-        const fetchDocumentTypes = async () => {
-            const documentData = await getDocumentType()
-            if (!documentData?.data) {
-                console.error('Error fetching document types')
-                showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
-                return
-            }
-        
-            const activeDocuments = documentData.data
-                .filter(({ estado }) => estado === "ACTIVO")
-                .map(({ codigo, nombre }) => ({ cod: codigo, value: nombre, label: nombre }))
-        
-            setDocumentType(activeDocuments)
-            setDocumentData(activeDocuments)
+        const documentTypes = getDocumentType()
+        if (!documentTypes) {
+            showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
+            return
         }
-    
-        fetchDocumentTypes()
+        setDocumentData(documentTypes)
+        setDocumentType(documentTypes)
     }, [])
 
     // Handle onSubmit
@@ -89,7 +78,7 @@ const ConsultReservationPage = () => {
 
             const keyMapping = { documentType: 'prefijo', documentNumber: 'identificacion' }
             const mappedData = mappingObject(data, keyMapping)
-            const response = await postUser(mappedData)
+            const response = await postUserData(mappedData)
 
             if (!response?.data) {
                 console.log('User API request error')
@@ -108,7 +97,7 @@ const ConsultReservationPage = () => {
 
             setuser(user)
 
-            const reservationsData = await getReservationsByPerson(id)
+            const reservationsData = await getReservationsByPersonData(id)
 
             if (!reservationsData?.data || !reservationsData?.data?.length) {
                 console.log('Reservations API request error')

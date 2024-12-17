@@ -14,14 +14,10 @@
 }
 
 [data-theme='dark'] {
-    /* --background-color: #242424;
+    --background-color: #3b3b3b;
     --text-color: #ffffff;
     --primary-color: lightblue;
-    --background-color-form: #303030; */
-    --background-color: #f8f8f8;
-    --text-color: #000000;
-    --primary-color: #000000;
-    --background-color-form: #ffffff;
+    --background-color-form: #3b3b3b;
 }
 
 [data-color='1'] {
@@ -46,6 +42,7 @@
     --primary-invalid-shadow-date-time: rgba(239, 68, 68, 0.2);
     --primary-error-date-time: #ef4444;
     /* Dropdown */
+    --primary-color-dropdown: #2d3236;
     --primary-border-dropdown: #bbbbbb;
     --primary-shadow-dropdown: rgba(0, 0, 0, 0.05);
     --primary-border-dropdown-focus: #5953a4;
@@ -55,6 +52,7 @@
     --primary-error-dropdown: #ef4444;
     /* Informative Message */
     /* Input */
+    --primary-color-input: #2d3236;
     --primary-border-input: #bbbbbb;
     --primary-shadow-input: rgba(0, 0, 0, 0.05);
     --primary-border-input-focus: #5953a4;

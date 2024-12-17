@@ -2,7 +2,7 @@ import { BASE_URL } from './config'
 import { getIDTenant } from '../util/localStorage'
 
 // Obtener los servicios y sedes de la configuracion de reservas de acuerdo al IDTenant
-export const getServicesHeadquarters = async () => {
+export const getServicesHeadquartersData = async () => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null
     
@@ -24,7 +24,7 @@ export const getServicesHeadquarters = async () => {
 }
 
 // Obtener los dias y horas disponibles de la configuracion de reservas de acuerdo al IDTenant
-export const getDaysHoursService = async (id) => {
+export const getDaysHoursServiceData = async (id) => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null
     
@@ -47,7 +47,7 @@ export const getDaysHoursService = async (id) => {
 }
 
 // Obtener la configuracion de la reserva de acuerdo al ID Tenant, ID Servicio y ID Sede
-export const getIDConfigReservation = async (idService, idHeadquarters) => {
+export const getIDConfigReservationData = async (idService, idHeadquarters) => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null
     

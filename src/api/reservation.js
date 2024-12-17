@@ -1,7 +1,7 @@
 import { BASE_URL } from './config'
 import { getIDTenant } from '../util/localStorage'
 
-export const postReservation = async (data) => {
+export const postReservationData = async (data) => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null
 
@@ -27,7 +27,7 @@ export const postReservation = async (data) => {
     return await response.json()
 }
 
-export const patchReservation = async (idReservation, data) => {
+export const patchReservationData = async (idReservation, data) => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null
 
@@ -44,7 +44,7 @@ export const patchReservation = async (idReservation, data) => {
     return await response.json()
 }
 
-export const getReservationsByPerson = async (idPerson) => {
+export const getReservationsByPersonData = async (idPerson) => {
     const IDTenant = getIDTenant()
     if (!IDTenant) return null
 

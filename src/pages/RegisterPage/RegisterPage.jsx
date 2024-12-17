@@ -14,7 +14,7 @@ import CustomModal from '../../components/Modal/CustomModal'
 import { mappingObject, cleanObject } from '../../util/object'
 import { getUser, setuser } from '../../util/localStorage'
 import { schemaRegister } from '../../schemas/register.schema'
-import { postCreateUser } from '../../api/user'
+import { postCreateUserData } from '../../api/user'
 
 import styles from './RegisterPage.module.css'
 
@@ -77,7 +77,7 @@ const RegisterPage = () => {
         const combinedData = { ...userData, ...dataForm, vip: 0 } // Combina los datos
         const registerData = cleanObject(combinedData) // Limpia las claves sin valores
 
-        const response = await postCreateUser(registerData)
+        const response = await postCreateUserData(registerData)
         
         if (response?.error === 1) {
             console.log('User API request error')

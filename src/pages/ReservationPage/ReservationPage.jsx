@@ -16,8 +16,8 @@ import CustomModal from '../../components/Modal/CustomModal'
 import { schemaReservation } from '../../schemas/reservation.schema'
 import { dropdownList, dropdownDate, dropdownObject } from '../../util/dropdown'
 import { getUser, setReservationData } from '../../util/localStorage'
-import { getServicesHeadquarters, getDaysHoursService } from '../../api/configurationService'
-import { postReservation } from '../../api/reservation'
+import { getServicesHeadquartersData, getDaysHoursServiceData } from '../../api/configurationService'
+import { postReservationData } from '../../api/reservation'
 
 import styles from './ReservationPage.module.css'
 
@@ -62,18 +62,23 @@ const ReservationPage = () => {
         try {
             const [user, configuration] = await Promise.all([
                 getUser(),
-                getServicesHeadquarters(),
+                getServicesHeadquartersData(),
             ])
 
-            setState(prev => ({
-                ...prev,
-                userData: user,
-                servicesData: configuration.data,
-                options: {
-                    ...prev.options,
-                    service: dropdownObject(configuration.data, 'servicios') || [],
-                },
-            }))
+            if (configuration?.data?.servicios) {
+                setState(prev => ({
+                    ...prev,
+                    userData: user,
+                    servicesData: configuration.data,
+                    options: {
+                        ...prev.options,
+                        service: dropdownObject(configuration.data, 'servicios') || [],
+                    },
+                }))
+            
+            } else {
+                showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
+            }
 
         } catch (error) {
             console.error('Error getting initial user and service data', error)
@@ -92,7 +97,7 @@ const ReservationPage = () => {
             }
 
             setState(prev => ({ ...prev, modal: true }))
-            const { data } = await getDaysHoursService(idConfig)
+            const { data } = await getDaysHoursServiceData(idConfig)
 
             setTimeout(() => {
                 if (!Object.keys(data?.fechas || {}).length) {
@@ -147,7 +152,7 @@ const ReservationPage = () => {
             setState(prev => ({ ...prev, modal: true }))
             setReservationData(reservationData)
         
-            const response = await postReservation({ data: reservationData })
+            const response = await postReservationData({ data: reservationData })
         
             setTimeout(() => {
                 setState(prev => ({ ...prev, modal: false }))
@@ -199,7 +204,10 @@ const ReservationPage = () => {
 
     // Navigation functions
     const goNext = useCallback(() => { navigate("/summary", { replace: true }) }, [navigate])
-    const goBack = useCallback(() => { navigate('/login', { replace: true }) }, [navigate])
+    const goBack = useCallback(() => { 
+        localStorage.removeItem('reservation')
+        navigate('/login', { replace: true }) 
+    }, [navigate])
 
     return (
         <div className={styles.container}>

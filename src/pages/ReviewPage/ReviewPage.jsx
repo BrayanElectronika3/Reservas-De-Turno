@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Pencil } from 'lucide-react'
 
@@ -10,11 +10,13 @@ import CustomButton from '../../components/Button/CustomButton'
 
 import { formatDateString } from '../../util/date'
 import { getReservationsByPerson, getWorkSpaceTenant, setReservationData } from '../../util/localStorage'
+import { ThemeContext } from '../../useThemeContext'
 
 import styles from './ReviewPage.module.css'
 
 const ReviewPage = () => {
     const navigate = useNavigate()
+    const { theme } = useContext(ThemeContext)
     const [selectedCard, setSelectedCard] = useState(null)
 
     const reservationsData = getReservationsByPerson()
@@ -34,7 +36,6 @@ const ReviewPage = () => {
     }
 
     const goNext = useCallback(() => { 
-        localStorage.clear()
         navigate(`/${getWorkSpaceTenant()}`, { replace: true }) 
     }, [navigate])
     const goEdit = useCallback(() => { navigate(`/reservationEdit`, { replace: true }) }, [navigate])
@@ -59,7 +60,15 @@ const ReviewPage = () => {
                                     <div><strong>Fecha:</strong> {formatDateString(item.fechaReserva)}</div>
                                     <div><strong>Hora:</strong> {item.horaReserva}</div>
                                 </>}
-                                backgroundColor={selectedCard === item.id ? 'rgba(55, 39, 122, 0.1)' : '#fff'}
+                                backgroundColor={selectedCard === item.id
+                                    ? theme === 'dark'
+                                        ? 'rgba(134, 113, 221, 0.3)'
+                                        : 'rgba(55, 39, 122, 0.1)'
+                                    : theme === 'dark'
+                                        ? '#616161'
+                                        : '#fff'
+                                }
+                                color={theme === 'dark' && '#ffffff'}
                                 buttonHidden={!(selectedCard === item.id)}
                                 onCardClick={() => handleClickCard(item.id)}
                                 onButtonClick={() => handleEdit()}

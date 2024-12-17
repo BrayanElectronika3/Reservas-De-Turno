@@ -9,9 +9,9 @@ import CustomButton from '../../components/Button/CustomButton'
 import LogoFooter from '../../components/Logos/LogoFooter'
 import CustomModal from '../../components/Modal/CustomModal'
 
-import { getTenant } from '../../api/tenant'
-import { getDocumentType } from '../../api/documentType'
-import { setTenantData, setDocumentType } from '../../util/localStorage'
+import { getTenantData } from '../../api/tenant'
+import { getDocumentTypeData } from '../../api/documentType'
+import { setTenantData, setDocumentType, getDocumentType } from '../../util/localStorage'
 
 import styles from './HomePage.module.css'
 
@@ -41,14 +41,31 @@ const HomePage = () => {
 
     const handleViewReservation = async () => {
         try {
-            const tenantData = await getTenant(tenant)
-            if (!tenantData?.data) {
-                console.error('Error fetching tenant data')
+            const tenantData = await getTenantData(tenant)
+            if (!tenantData?.data || tenantData.data.estado !== "ACTIVO") {
+                console.error('Tenant data is invalid or inactive')
                 showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
                 return
             }
         
             setTenantData(JSON.stringify(tenantData.data))
+            const documentTypes = getDocumentType()
+
+            if (Object.keys(documentTypes).length === 0) {
+                const documentData = await getDocumentTypeData()
+                if (!documentData?.data) {
+                    console.error('Error fetching document types')
+                    showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
+                    return
+                }
+            
+                const activeDocuments = documentData.data
+                    .filter(({ estado }) => estado === "ACTIVO")
+                    .map(({ codigo, nombre }) => ({ cod: codigo, value: nombre, label: nombre }))
+            
+                setDocumentType(activeDocuments)
+            }
+
             navigate("/consultReservation", { replace: true })
 
         } catch (error) {
@@ -61,7 +78,7 @@ const HomePage = () => {
         try {
             setModalState({ loading: true, error: false, title: '', message: '', button: false })
         
-            const tenantData = await getTenant(tenant)
+            const tenantData = await getTenantData(tenant)
             if (!tenantData?.data || tenantData.data.estado !== "ACTIVO") {
                 console.error('Tenant data is invalid or inactive')
                 showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
@@ -69,19 +86,22 @@ const HomePage = () => {
             }
         
             setTenantData(JSON.stringify(tenantData.data))
-        
-            const documentData = await getDocumentType()
-            if (!documentData?.data) {
-                console.error('Error fetching document types')
-                showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
-                return
+            const documentTypes = getDocumentType()
+
+            if (Object.keys(documentTypes).length === 0) {
+                const documentData = await getDocumentTypeData()
+                if (!documentData?.data) {
+                    console.error('Error fetching document types')
+                    showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
+                    return
+                }
+            
+                const activeDocuments = documentData.data
+                    .filter(({ estado }) => estado === "ACTIVO")
+                    .map(({ codigo, nombre }) => ({ cod: codigo, value: nombre, label: nombre }))
+            
+                setDocumentType(activeDocuments)
             }
-        
-            const activeDocuments = documentData.data
-                .filter(({ estado }) => estado === "ACTIVO")
-                .map(({ codigo, nombre }) => ({ cod: codigo, value: nombre }))
-        
-            setDocumentType(activeDocuments)
         
             setTimeout(() => {
                 setModalState({ loading: false, error: false, title: '', message: '', button: false })

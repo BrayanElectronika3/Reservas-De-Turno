@@ -48,7 +48,10 @@ const SummaryPage = () => {
 
     // Handle finalization
     const handleFinish = () => {
-        localStorage.clear()
+        localStorage.removeItem('documentType')
+        localStorage.removeItem('reservation')
+        localStorage.removeItem('reservationsByPerson')
+        localStorage.removeItem('user')
         navigate(`/${getWorkSpaceTenant()}`, { replace: true })
     }
 
