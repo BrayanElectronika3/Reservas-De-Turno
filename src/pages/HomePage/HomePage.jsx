@@ -11,7 +11,7 @@ import CustomModal from '../../components/Modal/CustomModal'
 
 import { getTenantData } from '../../api/tenant'
 import { getDocumentTypeData } from '../../api/documentType'
-import { setTenantData, setDocumentType, getDocumentType } from '../../util/localStorage'
+import { setTenantData, setDocumentType } from '../../util/localStorage'
 
 import styles from './HomePage.module.css'
 
@@ -49,22 +49,19 @@ const HomePage = () => {
             }
         
             setTenantData(JSON.stringify(tenantData.data))
-            const documentTypes = getDocumentType()
-
-            if (Object.keys(documentTypes).length === 0) {
-                const documentData = await getDocumentTypeData()
-                if (!documentData?.data) {
-                    console.error('Error fetching document types')
-                    showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
-                    return
-                }
             
-                const activeDocuments = documentData.data
-                    .filter(({ estado }) => estado === "ACTIVO")
-                    .map(({ codigo, nombre }) => ({ cod: codigo, value: nombre, label: nombre }))
-            
-                setDocumentType(activeDocuments)
+            const documentData = await getDocumentTypeData()
+            if (!documentData?.data) {
+                console.error('Error fetching document types')
+                showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
+                return
             }
+        
+            const activeDocuments = documentData.data
+                .filter(({ estado }) => estado === "ACTIVO")
+                .map(({ codigo, nombre }) => ({ cod: codigo, value: nombre, label: nombre }))
+        
+            setDocumentType(activeDocuments)
 
             navigate("/consultReservation", { replace: true })
 
@@ -86,22 +83,19 @@ const HomePage = () => {
             }
         
             setTenantData(JSON.stringify(tenantData.data))
-            const documentTypes = getDocumentType()
 
-            if (Object.keys(documentTypes).length === 0) {
-                const documentData = await getDocumentTypeData()
-                if (!documentData?.data) {
-                    console.error('Error fetching document types')
-                    showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
-                    return
-                }
-            
-                const activeDocuments = documentData.data
-                    .filter(({ estado }) => estado === "ACTIVO")
-                    .map(({ codigo, nombre }) => ({ cod: codigo, value: nombre, label: nombre }))
-            
-                setDocumentType(activeDocuments)
+            const documentData = await getDocumentTypeData()
+            if (!documentData?.data) {
+                console.error('Error fetching document types')
+                showError('Lo sentimos, algo salió mal', 'Intente realizar la acción nuevamente en unos minutos.')
+                return
             }
+        
+            const activeDocuments = documentData.data
+                .filter(({ estado }) => estado === "ACTIVO")
+                .map(({ codigo, nombre }) => ({ cod: codigo, value: nombre, label: nombre }))
+        
+            setDocumentType(activeDocuments)
         
             setTimeout(() => {
                 setModalState({ loading: false, error: false, title: '', message: '', button: false })
