@@ -13,8 +13,13 @@
   -moz-osx-font-smoothing: grayscale;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* color: rgba(255, 255, 255, 0.87); */
+  /* background-color: #242424; */
+  color: #2d3236;
+  background: linear-gradient(315deg, rgba(89,86,166,1) 3%, rgba(20,54,88,1) 38%, rgba(41,86,157,1) 68%, rgba(0, 130, 206,1) 98%);
+  animation: gradient 20s ease infinite;
+  background-size: 400% 400%;
+  background-attachment: fixed;
 }
 
 body {
